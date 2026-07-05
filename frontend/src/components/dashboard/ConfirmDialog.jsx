@@ -15,7 +15,7 @@ export function ConfirmDialog({
   onOpenChange,
   title,
   description,
-  confirmLabel = "নিশ্চিত করুন",
+  confirmLabel = "Confirm",
   variant = "destructive",
   isLoading = false,
   onConfirm,
@@ -30,7 +30,7 @@ export function ConfirmDialog({
         <DialogFooter>
           <DialogClose asChild>
             <Button type="button" variant="outline">
-              বাতিল
+              Cancel
             </Button>
           </DialogClose>
           <Button type="button" variant={variant} onClick={onConfirm} disabled={isLoading}>

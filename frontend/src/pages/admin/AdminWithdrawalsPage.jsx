@@ -28,18 +28,18 @@ import {
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 const filterOptions = [
-  { value: "all", label: "সব অবস্থা" },
-  { value: "pending", label: "অপেক্ষমাণ" },
-  { value: "processing", label: "প্রক্রিয়াধীন" },
-  { value: "completed", label: "সম্পন্ন" },
-  { value: "rejected", label: "প্রত্যাখ্যাত" },
+  { value: "all", label: "All Statuses" },
+  { value: "pending", label: "Pending" },
+  { value: "processing", label: "Processing" },
+  { value: "completed", label: "Completed" },
+  { value: "rejected", label: "Rejected" },
 ];
 
 const methodLabelsBn = {
-  bkash: "বিকাশ",
-  nagad: "নগদ",
-  rocket: "রকেট",
-  bank_transfer: "ব্যাংক ট্রান্সফার",
+  bkash: "bKash",
+  nagad: "Nagad",
+  rocket: "Rocket",
+  bank_transfer: "Bank Transfer",
 };
 
 export default function AdminWithdrawalsPage() {
@@ -58,7 +58,7 @@ export default function AdminWithdrawalsPage() {
       const { data } = await adminService.getAllWithdrawals(params);
       setWithdrawals(data.data);
     } catch (err) {
-      toast.error(err.response?.data?.message || "উত্তোলন লোড করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to load withdrawals");
     } finally {
       setIsLoading(false);
     }
@@ -73,12 +73,12 @@ export default function AdminWithdrawalsPage() {
     setProcessingId(id);
     try {
       await adminService.updateWithdrawalStatus(id, { status, ...extra });
-      toast.success(`উত্তোলন "${status}" হিসেবে চিহ্নিত হয়েছে`);
+      toast.success(`Withdrawal marked as "${status}"`);
       await loadWithdrawals();
       setRejectTarget(null);
       setRejectionReason("");
     } catch (err) {
-      toast.error(err.response?.data?.message || "উত্তোলন আপডেট করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to update withdrawal");
     } finally {
       setProcessingId(null);
     }
@@ -86,7 +86,7 @@ export default function AdminWithdrawalsPage() {
 
   function handleRejectSubmit() {
     if (!rejectionReason.trim()) {
-      toast.error("প্রত্যাখ্যানের কারণ উল্লেখ করুন");
+      toast.error("Specify a reason for rejection");
       return;
     }
     updateStatus(rejectTarget._id, "rejected", { rejectionReason: rejectionReason.trim() });
@@ -97,10 +97,10 @@ export default function AdminWithdrawalsPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            উত্তোলন
+            Withdrawal
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            ইউজারদের উত্তোলনের অনুরোধ পর্যালোচনা ও প্রক্রিয়া করো।
+            Users-দের Withdrawal Request পর্যালোচনা ও প্রক্রিয়া করো।
           </p>
         </div>
         <Select value={filter} onValueChange={setFilter}>
@@ -124,7 +124,7 @@ export default function AdminWithdrawalsPage() {
           ))}
         </div>
       ) : withdrawals.length === 0 ? (
-        <EmptyState icon={Wallet} title="কোনো উত্তোলন পাওয়া যায়নি" description="এই ফিল্টারের সাথে এখন কিছুই মিলছে না।" />
+        <EmptyState icon={Wallet} title="No withdrawals found" description="Nothing matches this filter right now." />
       ) : (
         <div className="flex flex-col gap-3">
           {withdrawals.map((w) => (
@@ -138,7 +138,7 @@ export default function AdminWithdrawalsPage() {
                   {w.accountDetails.accountNumber}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  অনুরোধ করা হয়েছে {formatDate(w.createdAt)}
+                  Requested on {formatDate(w.createdAt)}
                 </p>
               </div>
 
@@ -158,7 +158,7 @@ export default function AdminWithdrawalsPage() {
                       onClick={() => updateStatus(w._id, "processing")}
                       disabled={processingId === w._id}
                     >
-                      <Clock className="h-4 w-4" /> প্রক্রিয়া করুন
+                      <Clock className="h-4 w-4" /> Process
                     </Button>
                   )}
                   <Button
@@ -168,7 +168,7 @@ export default function AdminWithdrawalsPage() {
                     onClick={() => setRejectTarget(w)}
                     disabled={processingId === w._id}
                   >
-                    <X className="h-4 w-4" /> প্রত্যাখ্যান
+                    <X className="h-4 w-4" /> Reject
                   </Button>
                   <Button
                     variant="success"
@@ -181,7 +181,7 @@ export default function AdminWithdrawalsPage() {
                     ) : (
                       <Check className="h-4 w-4" />
                     )}
-                    পরিশোধিত হিসেবে চিহ্নিত করুন
+                    Mark as Paid
                   </Button>
                 </div>
               )}
@@ -193,24 +193,24 @@ export default function AdminWithdrawalsPage() {
       <Dialog open={!!rejectTarget} onOpenChange={(open) => !open && setRejectTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>উত্তোলন প্রত্যাখ্যান করুন</DialogTitle>
+            <DialogTitle>Reject Withdrawal</DialogTitle>
             <DialogDescription>
-              সংরক্ষিত ব্যালেন্স স্বয়ংক্রিয়ভাবে ইউজারের অ্যাকাউন্টে ফেরত দেওয়া হবে।
+              Reserved Balance স্বয়ংক্রিয়ভাবে User-এর Account-এ ফেরত দেওয়া হবে।
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="withdrawalRejectionReason">প্রত্যাখ্যানের কারণ</Label>
+            <Label htmlFor="withdrawalRejectionReason">Rejection Reason</Label>
             <Textarea
               id="withdrawalRejectionReason"
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              placeholder="যেমন: অ্যাকাউন্টের তথ্য যাচাই করা যায়নি"
+              placeholder="e.g. Could not verify account information"
             />
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
-                বাতিল
+                Cancel
               </Button>
             </DialogClose>
             <Button
@@ -222,7 +222,7 @@ export default function AdminWithdrawalsPage() {
               {processingId === rejectTarget?._id && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              প্রত্যাখ্যান ও ফেরত
+              Reject & Refund
             </Button>
           </DialogFooter>
         </DialogContent>

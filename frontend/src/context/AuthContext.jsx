@@ -38,9 +38,9 @@ export function AuthProvider({ children }) {
       window.removeEventListener("auth:session-expired", handleSessionExpired);
   }, []);
 
-  const login = useCallback(async ({ email, password }) => {
+  const login = useCallback(async ({ email, password, portal = "user" }) => {
     setAuthError(null);
-    const { data } = await axiosInstance.post("/auth/login", { email, password });
+    const { data } = await axiosInstance.post("/auth/login", { email, password, portal });
     setAccessToken(data.data.accessToken);
     setUser(data.data.user);
     return data.data.user;

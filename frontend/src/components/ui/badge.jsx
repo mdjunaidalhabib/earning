@@ -36,16 +36,16 @@ export function StatusBadge({ status, className }) {
     expired: "default",
   };
   const labelMap = {
-    pending: "অপেক্ষমাণ",
-    processing: "প্রক্রিয়াধীন",
-    approved: "অনুমোদিত",
-    completed: "সম্পন্ন",
-    active: "সক্রিয়",
-    credited: "জমা হয়েছে",
-    rejected: "প্রত্যাখ্যাত",
-    revoked: "বাতিল",
-    paused: "স্থগিত",
-    expired: "মেয়াদোত্তীর্ণ",
+    pending: "Pending",
+    processing: "Processing",
+    approved: "Approved",
+    completed: "Completed",
+    active: "Active",
+    credited: "Submitted",
+    rejected: "Rejected",
+    revoked: "Cancelled",
+    paused: "Suspended",
+    expired: "Expired",
   };
 
   return (

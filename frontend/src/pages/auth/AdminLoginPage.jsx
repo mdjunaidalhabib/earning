@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Link, useNavigate, useLocation } from "react-router-dom";
-import { Eye, EyeOff, LogIn, Loader2 } from "lucide-react";
+import { Eye, EyeOff, ShieldCheck, Loader2 } from "lucide-react";
 import toast from "react-hot-toast";
 
 import { useAuth } from "@/context/AuthContext";
@@ -22,7 +22,7 @@ function validate(values) {
   return errors;
 }
 
-export default function LoginPage() {
+export default function AdminLoginPage() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const location = useLocation();
@@ -46,10 +46,10 @@ export default function LoginPage() {
 
     setIsSubmitting(true);
     try {
-      const user = await login({ ...values, portal: "user" });
+      const user = await login({ ...values, portal: "admin" });
       toast.success(`Welcome back, ${user.name.split(" ")[0]}!`);
       const redirectTo = location.state?.from?.pathname;
-      navigate(redirectTo || "/dashboard", { replace: true });
+      navigate(redirectTo || "/admin", { replace: true });
     } catch (err) {
       const message =
         err.response?.data?.message || "Invalid email or password. Please try again.";
@@ -61,16 +61,19 @@ export default function LoginPage() {
 
   return (
     <div className="flex min-h-screen">
-      <AuthSplitPanel />
+      <AuthSplitPanel variant="admin" />
 
       <div className="flex flex-1 items-center justify-center px-4 py-12 sm:px-8">
         <div className="w-full max-w-sm">
           <div className="mb-8">
+            <div className="mb-3 flex h-10 w-10 items-center justify-center rounded-lg bg-ink/5 text-ink">
+              <ShieldCheck className="h-5 w-5" />
+            </div>
             <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-              Welcome Back
+              Admin Login
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              তোমার Balance ও আজকের Earning Task দেখতে Log In করো।
+              Platform পরিচালনার জন্য admin account দিয়ে Log In করো।
             </p>
           </div>
 
@@ -82,7 +85,7 @@ export default function LoginPage() {
                 name="email"
                 type="email"
                 autoComplete="email"
-                placeholder="you@example.com"
+                placeholder="admin@example.com"
                 value={values.email}
                 onChange={handleChange}
                 aria-invalid={!!errors.email}
@@ -125,23 +128,16 @@ export default function LoginPage() {
               {isSubmitting ? (
                 <Loader2 className="h-4 w-4 animate-spin" />
               ) : (
-                <LogIn className="h-4 w-4" />
+                <ShieldCheck className="h-4 w-4" />
               )}
-              {isSubmitting ? "Logging in…" : "Log In"}
+              {isSubmitting ? "Logging in…" : "Log In as Admin"}
             </Button>
           </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Account নেই?{" "}
-            <Link to="/register" className="font-semibold text-primary hover:underline">
-              Sign Up for Free
-            </Link>
-          </p>
-
-          <p className="mt-3 text-center text-xs text-muted-foreground">
-            Admin?{" "}
-            <Link to="/admin/login" className="font-medium text-primary hover:underline">
-              Admin Login
+            Not an admin?{" "}
+            <Link to="/login" className="font-semibold text-primary hover:underline">
+              Go to User Login
             </Link>
           </p>
         </div>

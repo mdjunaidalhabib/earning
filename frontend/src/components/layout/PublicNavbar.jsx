@@ -5,8 +5,8 @@ import { Button } from "@/components/ui/button";
 import { useAuth } from "@/context/AuthContext";
 
 const links = [
-  { to: "/", label: "হোম" },
-  { to: "/how-it-works", label: "কিভাবে কাজ করে" },
+  { to: "/", label: "Home" },
+  { to: "/how-it-works", label: "How It Works" },
 ];
 
 export function PublicNavbar() {
@@ -21,7 +21,7 @@ export function PublicNavbar() {
             <Wallet className="h-5 w-5 text-brass" strokeWidth={2.25} />
           </div>
           <span className="font-display text-lg font-semibold tracking-tight text-foreground">
-            আর্নলেজার
+            EarnLedger
           </span>
         </Link>
 
@@ -44,15 +44,15 @@ export function PublicNavbar() {
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
             <Button asChild variant="brass">
-              <Link to={isAdmin ? "/admin" : "/dashboard"}>ড্যাশবোর্ডে যান</Link>
+              <Link to={isAdmin ? "/admin" : "/dashboard"}>Go to Dashboard</Link>
             </Button>
           ) : (
             <>
               <Button asChild variant="ghost">
-                <Link to="/login">লগ ইন</Link>
+                <Link to="/login">Log In</Link>
               </Button>
               <Button asChild variant="brass">
-                <Link to="/register">শুরু করুন</Link>
+                <Link to="/register">Get Started</Link>
               </Button>
             </>
           )}
@@ -61,7 +61,7 @@ export function PublicNavbar() {
         <button
           className="rounded-md p-2 text-foreground md:hidden"
           onClick={() => setOpen((v) => !v)}
-          aria-label="মেনু টগল করুন"
+          aria-label="Toggle menu"
         >
           {open ? <X className="h-5 w-5" /> : <Menu className="h-5 w-5" />}
         </button>
@@ -83,15 +83,15 @@ export function PublicNavbar() {
             <div className="ledger-stripe" />
             {isAuthenticated ? (
               <Button asChild variant="brass" onClick={() => setOpen(false)}>
-                <Link to={isAdmin ? "/admin" : "/dashboard"}>ড্যাশবোর্ডে যান</Link>
+                <Link to={isAdmin ? "/admin" : "/dashboard"}>Go to Dashboard</Link>
               </Button>
             ) : (
               <>
                 <Button asChild variant="outline" onClick={() => setOpen(false)}>
-                  <Link to="/login">লগ ইন</Link>
+                  <Link to="/login">Log In</Link>
                 </Button>
                 <Button asChild variant="brass" onClick={() => setOpen(false)}>
-                  <Link to="/register">শুরু করুন</Link>
+                  <Link to="/register">Get Started</Link>
                 </Button>
               </>
             )}

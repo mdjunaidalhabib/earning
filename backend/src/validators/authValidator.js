@@ -48,6 +48,11 @@ const loginValidator = [
     .normalizeEmail(),
 
   body("password").notEmpty().withMessage("Password is required"),
+
+  body("portal")
+    .optional()
+    .isIn(["user", "admin"])
+    .withMessage("Invalid login portal"),
 ];
 
 const changePasswordValidator = [

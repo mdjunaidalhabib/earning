@@ -83,7 +83,7 @@ const register = asyncHandler(async (req, res) => {
  * @access  Public
  */
 const login = asyncHandler(async (req, res) => {
-  const { email, password } = req.body;
+  const { email, password, portal } = req.body;
 
   const user = await User.findOne({ email }).select("+password");
 
@@ -93,6 +93,18 @@ const login = asyncHandler(async (req, res) => {
 
   if (!user.isActive) {
     throw new ApiError(403, "This account has been suspended. Contact support.");
+  }
+
+  // Keep the user and admin login routes fully separate: an admin account
+  // cannot log in through the user portal, and a regular user cannot log in
+  // through the admin portal, regardless of which URL/form the request came
+  // from on the frontend.
+  const requestedPortal = portal === "admin" ? "admin" : "user";
+  if (requestedPortal === "admin" && user.role !== "admin") {
+    throw new ApiError(403, "This account does not have admin access.");
+  }
+  if (requestedPortal === "user" && user.role === "admin") {
+    throw new ApiError(403, "Admin accounts must log in from the admin portal.");
   }
 
   user.lastLoginAt = new Date();

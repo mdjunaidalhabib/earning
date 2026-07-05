@@ -13,31 +13,31 @@ function validate(values) {
   const errors = {};
 
   if (!values.name.trim()) {
-    errors.name = "নাম আবশ্যক";
+    errors.name = "Name is required";
   } else if (values.name.trim().length < 2) {
-    errors.name = "নাম কমপক্ষে ২ অক্ষরের হতে হবে";
+    errors.name = "Name must be at least 2 characters";
   }
 
   if (!values.email.trim()) {
-    errors.email = "ইমেইল আবশ্যক";
+    errors.email = "Email is required";
   } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(values.email)) {
-    errors.email = "একটি সঠিক ইমেইল ঠিকানা দিন";
+    errors.email = "Please enter a valid email address";
   }
 
   if (values.phone && !/^\+?[0-9]{10,15}$/.test(values.phone)) {
-    errors.phone = "একটি সঠিক ফোন নম্বর দিন";
+    errors.phone = "Please enter a valid phone number";
   }
 
   if (!values.password) {
-    errors.password = "পাসওয়ার্ড আবশ্যক";
+    errors.password = "Password is required";
   } else if (values.password.length < 8) {
-    errors.password = "পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে";
+    errors.password = "Password must be at least 8 characters";
   } else if (!/\d/.test(values.password) || !/[A-Za-z]/.test(values.password)) {
-    errors.password = "পাসওয়ার্ডে অক্ষর ও সংখ্যা উভয়ই থাকতে হবে";
+    errors.password = "Password must contain both letters and numbers";
   }
 
   if (values.password !== values.confirmPassword) {
-    errors.confirmPassword = "পাসওয়ার্ড দুটি মিলছে না";
+    errors.confirmPassword = "Passwords do not match";
   }
 
   return errors;
@@ -86,11 +86,11 @@ export default function RegisterPage() {
       if (!payload.phone) delete payload.phone;
 
       const user = await register(payload);
-      toast.success(`আর্নলেজারে স্বাগতম, ${user.name.split(" ")[0]}!`);
+      toast.success(`Welcome to EarnLedger, ${user.name.split(" ")[0]}!`);
       navigate("/dashboard", { replace: true });
     } catch (err) {
       const message =
-        err.response?.data?.message || "নিবন্ধন ব্যর্থ হয়েছে। আবার চেষ্টা করুন।";
+        err.response?.data?.message || "Registration failed. Please try again.";
       toast.error(message);
     } finally {
       setIsSubmitting(false);
@@ -105,20 +105,20 @@ export default function RegisterPage() {
         <div className="w-full max-w-sm">
           <div className="mb-7">
             <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-              তোমার অ্যাকাউন্ট তৈরি করো
+              Create Your Account
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              মিনিটের মধ্যেই টাস্ক সম্পন্ন করা ও আয় করা শুরু করো।
+              মিনিটের মধ্যেই Task Complete করা ও আয় করা শুরু করো।
             </p>
           </div>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4" noValidate>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="name">পুরো নাম</Label>
+              <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
                 name="name"
-                placeholder="জুনায়েদ ইসলাম"
+                placeholder="Junaed Islam"
                 value={values.name}
                 onChange={handleChange}
                 aria-invalid={!!errors.name}
@@ -127,7 +127,7 @@ export default function RegisterPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="email">ইমেইল ঠিকানা</Label>
+              <Label htmlFor="email">Email Address</Label>
               <Input
                 id="email"
                 name="email"
@@ -143,7 +143,7 @@ export default function RegisterPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="phone">
-                ফোন নম্বর <span className="text-muted-foreground">(ঐচ্ছিক)</span>
+                Phone Number <span className="text-muted-foreground">(Optional)</span>
               </Label>
               <Input
                 id="phone"
@@ -157,14 +157,14 @@ export default function RegisterPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="password">পাসওয়ার্ড</Label>
+              <Label htmlFor="password">Password</Label>
               <div className="relative">
                 <Input
                   id="password"
                   name="password"
                   type={showPassword ? "text" : "password"}
                   autoComplete="new-password"
-                  placeholder="কমপক্ষে ৮ অক্ষর"
+                  placeholder="At least 8 characters"
                   value={values.password}
                   onChange={handleChange}
                   aria-invalid={!!errors.password}
@@ -174,7 +174,7 @@ export default function RegisterPage() {
                   type="button"
                   onClick={() => setShowPassword((v) => !v)}
                   className="absolute inset-y-0 right-0 flex items-center pr-3 text-muted-foreground"
-                  aria-label={showPassword ? "পাসওয়ার্ড লুকান" : "পাসওয়ার্ড দেখান"}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
                 >
                   {showPassword ? <EyeOff className="h-4 w-4" /> : <Eye className="h-4 w-4" />}
                 </button>
@@ -183,13 +183,13 @@ export default function RegisterPage() {
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="confirmPassword">পাসওয়ার্ড নিশ্চিত করুন</Label>
+              <Label htmlFor="confirmPassword">Confirm Password</Label>
               <Input
                 id="confirmPassword"
                 name="confirmPassword"
                 type={showPassword ? "text" : "password"}
                 autoComplete="new-password"
-                placeholder="পাসওয়ার্ড আবার লিখুন"
+                placeholder="Re-enter password"
                 value={values.confirmPassword}
                 onChange={handleChange}
                 aria-invalid={!!errors.confirmPassword}
@@ -201,7 +201,7 @@ export default function RegisterPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="referralCode">
-                রেফারেল কোড <span className="text-muted-foreground">(ঐচ্ছিক)</span>
+                Referral Code <span className="text-muted-foreground">(Optional)</span>
               </Label>
               <Input
                 id="referralCode"
@@ -219,14 +219,14 @@ export default function RegisterPage() {
               ) : (
                 <UserPlus className="h-4 w-4" />
               )}
-              {isSubmitting ? "অ্যাকাউন্ট তৈরি হচ্ছে…" : "অ্যাকাউন্ট তৈরি করুন"}
+              {isSubmitting ? "Creating account…" : "Create Account"}
             </Button>
           </form>
 
           <p className="mt-6 text-center text-sm text-muted-foreground">
-            ইতিমধ্যে অ্যাকাউন্ট আছে?{" "}
+            Already have an Account?{" "}
             <Link to="/login" className="font-semibold text-primary hover:underline">
-              লগ ইন করুন
+              Log In
             </Link>
           </p>
         </div>

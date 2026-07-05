@@ -30,25 +30,25 @@ import {
 import { formatCurrency } from "@/lib/utils";
 
 const categoryOptions = [
-  { value: "survey", label: "সার্ভে" },
-  { value: "ad_view", label: "বিজ্ঞাপন দেখুন" },
-  { value: "app_install", label: "অ্যাপ ইনস্টল" },
-  { value: "social_follow", label: "সোশ্যাল ফলো" },
-  { value: "offer", label: "অফার" },
-  { value: "custom", label: "কাস্টম" },
+  { value: "survey", label: "Survey" },
+  { value: "ad_view", label: "Watch Ads" },
+  { value: "app_install", label: "App Install" },
+  { value: "social_follow", label: "Social Follow" },
+  { value: "offer", label: "Offer" },
+  { value: "custom", label: "Custom" },
 ];
 
 const proofTypeOptions = [
-  { value: "screenshot", label: "স্ক্রিনশট URL" },
-  { value: "text", label: "টেক্সট বিবরণ" },
-  { value: "link", label: "লিংক" },
-  { value: "none", label: "কোনোটিই না" },
+  { value: "screenshot", label: "Screenshot URL" },
+  { value: "text", label: "Text Description" },
+  { value: "link", label: "Link" },
+  { value: "none", label: "None" },
 ];
 
 const statusOptions = [
-  { value: "active", label: "সক্রিয়" },
-  { value: "paused", label: "স্থগিত" },
-  { value: "expired", label: "মেয়াদোত্তীর্ণ" },
+  { value: "active", label: "Active" },
+  { value: "paused", label: "Suspended" },
+  { value: "expired", label: "Expired" },
 ];
 
 const emptyForm = {
@@ -84,7 +84,7 @@ export default function AdminTasksPage() {
       const { data } = await adminService.getAllTasks({ limit: 50 });
       setTasks(data.data);
     } catch (err) {
-      toast.error(err.response?.data?.message || "টাস্ক লোড করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to load tasks");
     } finally {
       setIsLoading(false);
     }
@@ -128,19 +128,19 @@ export default function AdminTasksPage() {
 
   function validate() {
     const newErrors = {};
-    if (!form.title.trim()) newErrors.title = "টাইটেল আবশ্যক";
-    if (!form.description.trim()) newErrors.description = "বিবরণ আবশ্যক";
+    if (!form.title.trim()) newErrors.title = "Title is required";
+    if (!form.description.trim()) newErrors.description = "Description is required";
     if (!form.rewardAmount || parseFloat(form.rewardAmount) <= 0) {
-      newErrors.rewardAmount = "পুরস্কারের পরিমাণ ০ এর চেয়ে বেশি হতে হবে";
+      newErrors.rewardAmount = "Reward amount must be greater than 0";
     }
     if (form.externalLink && !/^https?:\/\/.+/.test(form.externalLink)) {
-      newErrors.externalLink = "http(s):// দিয়ে শুরু হওয়া একটি সঠিক URL হতে হবে";
+      newErrors.externalLink = "Must be a valid URL starting with http(s)://";
     }
     if (form.maxCompletions && parseInt(form.maxCompletions, 10) < 1) {
-      newErrors.maxCompletions = "কমপক্ষে ১ হতে হবে";
+      newErrors.maxCompletions = "Must be at least 1";
     }
     if (!form.perUserLimit || parseInt(form.perUserLimit, 10) < 1) {
-      newErrors.perUserLimit = "কমপক্ষে ১ হতে হবে";
+      newErrors.perUserLimit = "Must be at least 1";
     }
     return newErrors;
   }
@@ -169,15 +169,15 @@ export default function AdminTasksPage() {
     try {
       if (editingTask) {
         await adminService.updateTask(editingTask._id, payload);
-        toast.success("টাস্ক সফলভাবে আপডেট হয়েছে");
+        toast.success("Task updated successfully");
       } else {
         await adminService.createTask(payload);
-        toast.success("টাস্ক সফলভাবে তৈরি হয়েছে");
+        toast.success("Task created successfully");
       }
       setIsFormOpen(false);
       await loadTasks();
     } catch (err) {
-      toast.error(err.response?.data?.message || "টাস্ক সংরক্ষণ করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to save task");
     } finally {
       setIsSaving(false);
     }
@@ -188,11 +188,11 @@ export default function AdminTasksPage() {
     setIsDeleting(true);
     try {
       await adminService.deleteTask(deleteTarget._id);
-      toast.success("টাস্ক সফলভাবে মুছে ফেলা হয়েছে");
+      toast.success("Task deleted successfully");
       setDeleteTarget(null);
       await loadTasks();
     } catch (err) {
-      toast.error(err.response?.data?.message || "টাস্ক মুছে ফেলা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to delete task");
     } finally {
       setIsDeleting(false);
     }
@@ -205,14 +205,14 @@ export default function AdminTasksPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            টাস্ক ব্যবস্থাপনা
+            Task Management
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            ইউজারদের জন্য আয়ের সুযোগ তৈরি ও পরিচালনা করো।
+            Users-দের জন্য Earning Opportunity তৈরি ও পরিচালনা করো।
           </p>
         </div>
         <Button variant="brass" onClick={openCreateForm}>
-          <Plus className="h-4 w-4" /> নতুন টাস্ক
+          <Plus className="h-4 w-4" /> New Task
         </Button>
       </div>
 
@@ -225,8 +225,8 @@ export default function AdminTasksPage() {
       ) : tasks.length === 0 ? (
         <EmptyState
           icon={ListChecks}
-          title="এখনো কোনো টাস্ক তৈরি হয়নি"
-          description="ইউজারদের শুরু করানোর জন্য তোমার প্রথম টাস্ক তৈরি করো।"
+          title="No tasks created yet"
+          description="Create your first task to get users started."
         />
       ) : (
         <div className="ledger-card overflow-hidden">
@@ -234,12 +234,12 @@ export default function AdminTasksPage() {
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-secondary/50">
                 <tr>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">টাস্ক</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">ক্যাটাগরি</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">পুরস্কার</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">সম্পন্ন হয়েছে</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">অবস্থা</th>
-                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">কার্যক্রম</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Task</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Category</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Reward</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Completed</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Status</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -288,21 +288,21 @@ export default function AdminTasksPage() {
       <Dialog open={isFormOpen} onOpenChange={setIsFormOpen}>
         <DialogContent className="max-h-[85vh] max-w-lg overflow-y-auto">
           <DialogHeader>
-            <DialogTitle>{editingTask ? "টাস্ক সম্পাদনা করুন" : "নতুন টাস্ক তৈরি করুন"}</DialogTitle>
+            <DialogTitle>{editingTask ? "Edit Task" : "Create New Task"}</DialogTitle>
             <DialogDescription>
-              এই আয়ের সুযোগের বিস্তারিত তথ্য পূরণ করো।
+              এই Earning Opportunity-র বিস্তারিত তথ্য পূরণ করো।
             </DialogDescription>
           </DialogHeader>
 
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="title">টাইটেল</Label>
+              <Label htmlFor="title">Title</Label>
               <Input id="title" name="title" value={form.title} onChange={handleChange} />
               {errors.title && <p className="text-xs text-rust">{errors.title}</p>}
             </div>
 
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="description">বিবরণ</Label>
+              <Label htmlFor="description">Description</Label>
               <Textarea
                 id="description"
                 name="description"
@@ -314,7 +314,7 @@ export default function AdminTasksPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label>ক্যাটাগরি</Label>
+                <Label>Category</Label>
                 <Select value={form.category} onValueChange={(v) => setForm((p) => ({ ...p, category: v }))}>
                   <SelectTrigger>
                     <SelectValue />
@@ -330,7 +330,7 @@ export default function AdminTasksPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="rewardAmount">পুরস্কারের পরিমাণ</Label>
+                <Label htmlFor="rewardAmount">Reward Amount</Label>
                 <Input
                   id="rewardAmount"
                   name="rewardAmount"
@@ -345,7 +345,7 @@ export default function AdminTasksPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="externalLink">
-                এক্সটার্নাল লিংক <span className="text-muted-foreground">(ঐচ্ছিক)</span>
+                External Link <span className="text-muted-foreground">(Optional)</span>
               </Label>
               <Input
                 id="externalLink"
@@ -359,7 +359,7 @@ export default function AdminTasksPage() {
 
             <div className="flex flex-col gap-1.5">
               <Label htmlFor="instructions">
-                নির্দেশনা <span className="text-muted-foreground">(ঐচ্ছিক)</span>
+                Instructions <span className="text-muted-foreground">(Optional)</span>
               </Label>
               <Textarea
                 id="instructions"
@@ -371,7 +371,7 @@ export default function AdminTasksPage() {
 
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label>প্রমাণের ধরন</Label>
+                <Label>Proof Type</Label>
                 <Select value={form.proofType} onValueChange={(v) => setForm((p) => ({ ...p, proofType: v }))}>
                   <SelectTrigger>
                     <SelectValue />
@@ -387,7 +387,7 @@ export default function AdminTasksPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label>অবস্থা</Label>
+                <Label>Status</Label>
                 <Select value={form.status} onValueChange={(v) => setForm((p) => ({ ...p, status: v }))}>
                   <SelectTrigger>
                     <SelectValue />
@@ -406,7 +406,7 @@ export default function AdminTasksPage() {
             <div className="grid grid-cols-2 gap-4">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="maxCompletions">
-                  সর্বোচ্চ সম্পন্ন সংখ্যা <span className="text-muted-foreground">(ফাঁকা = সীমাহীন)</span>
+                  Max Completions <span className="text-muted-foreground">(Blank = Unlimited)</span>
                 </Label>
                 <Input
                   id="maxCompletions"
@@ -421,7 +421,7 @@ export default function AdminTasksPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="perUserLimit">প্রতি ইউজার সীমা</Label>
+                <Label htmlFor="perUserLimit">Per-User Limit</Label>
                 <Input
                   id="perUserLimit"
                   name="perUserLimit"
@@ -440,18 +440,18 @@ export default function AdminTasksPage() {
                 onChange={(e) => setForm((p) => ({ ...p, proofRequired: e.target.checked }))}
                 className="h-4 w-4 rounded border-input text-brass accent-brass"
               />
-              সম্পন্ন করার প্রমাণ আবশ্যক
+              Proof of Completion Required
             </label>
 
             <DialogFooter>
               <DialogClose asChild>
                 <Button type="button" variant="outline">
-                  বাতিল
+                  Cancel
                 </Button>
               </DialogClose>
               <Button type="submit" variant="brass" disabled={isSaving}>
                 {isSaving && <Loader2 className="h-4 w-4 animate-spin" />}
-                {editingTask ? "পরিবর্তন সংরক্ষণ করুন" : "টাস্ক তৈরি করুন"}
+                {editingTask ? "Save Changes" : "Create Task"}
               </Button>
             </DialogFooter>
           </form>
@@ -461,9 +461,9 @@ export default function AdminTasksPage() {
       <ConfirmDialog
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
-        title="এই টাস্কটি মুছে ফেলবেন?"
-        description={`"${deleteTarget?.title}" স্থায়ীভাবে মুছে ফেলা হবে। এটি পূর্বাবস্থায় ফেরানো যাবে না।`}
-        confirmLabel="টাস্ক মুছে ফেলুন"
+        title="Delete this task?"
+        description={`"${deleteTarget?.title}" স্থায়ীভাবে Delete হয়ে যাবে। এটি Undo করা যাবে না।`}
+        confirmLabel="Delete Task"
         isLoading={isDeleting}
         onConfirm={handleDelete}
       />

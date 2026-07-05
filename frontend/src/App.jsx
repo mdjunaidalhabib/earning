@@ -10,6 +10,7 @@ import HowItWorksPage from "@/pages/HowItWorksPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 
 import LoginPage from "@/pages/auth/LoginPage";
+import AdminLoginPage from "@/pages/auth/AdminLoginPage";
 import RegisterPage from "@/pages/auth/RegisterPage";
 import ForgotPasswordPage from "@/pages/auth/ForgotPasswordPage";
 import ResetPasswordPage from "@/pages/auth/ResetPasswordPage";
@@ -40,6 +41,7 @@ export default function App() {
       {/* Guest-only auth pages (redirect away if already logged in) */}
       <Route element={<GuestOnlyRoute />}>
         <Route path="/login" element={<LoginPage />} />
+        <Route path="/admin/login" element={<AdminLoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/forgot-password" element={<ForgotPasswordPage />} />
         <Route path="/reset-password/:token" element={<ResetPasswordPage />} />

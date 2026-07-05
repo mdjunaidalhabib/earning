@@ -35,9 +35,9 @@ export default function AdminProfilePage() {
     try {
       await userService.updateProfile(profileForm);
       await refreshUser();
-      toast.success("প্রোফাইল সফলভাবে আপডেট হয়েছে");
+      toast.success("Profile updated successfully");
     } catch (err) {
-      toast.error(err.response?.data?.message || "প্রোফাইল আপডেট করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to update profile");
     } finally {
       setIsSavingProfile(false);
     }
@@ -46,12 +46,12 @@ export default function AdminProfilePage() {
   async function handlePasswordSubmit(e) {
     e.preventDefault();
     const errors = {};
-    if (!passwordForm.currentPassword) errors.currentPassword = "বর্তমান পাসওয়ার্ড আবশ্যক";
+    if (!passwordForm.currentPassword) errors.currentPassword = "Current password is required";
     if (!passwordForm.newPassword || passwordForm.newPassword.length < 8) {
-      errors.newPassword = "পাসওয়ার্ড কমপক্ষে ৮ অক্ষরের হতে হবে";
+      errors.newPassword = "Password must be at least 8 characters";
     }
     if (passwordForm.newPassword !== passwordForm.confirmPassword) {
-      errors.confirmPassword = "পাসওয়ার্ড দুটি মিলছে না";
+      errors.confirmPassword = "Passwords do not match";
     }
     setPasswordErrors(errors);
     if (Object.keys(errors).length > 0) return;
@@ -62,11 +62,11 @@ export default function AdminProfilePage() {
         currentPassword: passwordForm.currentPassword,
         newPassword: passwordForm.newPassword,
       });
-      toast.success("পাসওয়ার্ড পরিবর্তন হয়েছে। আবার লগ ইন করুন।");
+      toast.success("Password changed. Please log in again.");
       await logout();
       window.location.href = "/login";
     } catch (err) {
-      toast.error(err.response?.data?.message || "পাসওয়ার্ড পরিবর্তন করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to change password");
     } finally {
       setIsChangingPassword(false);
     }
@@ -76,14 +76,14 @@ export default function AdminProfilePage() {
     <div className="mx-auto flex max-w-2xl flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-          অ্যাডমিন প্রোফাইল
+          Admin Profile
         </h1>
-        <p className="mt-1 text-sm text-muted-foreground">তোমার অ্যাডমিন অ্যাকাউন্টের তথ্য পরিচালনা করো।</p>
+        <p className="mt-1 text-sm text-muted-foreground">Manage your admin account information.</p>
       </div>
 
       <Card>
         <CardHeader>
-          <CardTitle>ব্যক্তিগত তথ্য</CardTitle>
+          <CardTitle>Personal Information</CardTitle>
         </CardHeader>
         <CardContent>
           <div className="mb-5 flex items-center gap-4">
@@ -92,13 +92,13 @@ export default function AdminProfilePage() {
             </Avatar>
             <div>
               <p className="font-medium text-foreground">{user?.email}</p>
-              <p className="text-xs text-muted-foreground">অ্যাডমিনিস্ট্রেটর</p>
+              <p className="text-xs text-muted-foreground">Administrator</p>
             </div>
           </div>
 
           <form onSubmit={handleProfileSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="name">পুরো নাম</Label>
+              <Label htmlFor="name">Full Name</Label>
               <Input
                 id="name"
                 value={profileForm.name}
@@ -106,7 +106,7 @@ export default function AdminProfilePage() {
               />
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="phone">ফোন নম্বর</Label>
+              <Label htmlFor="phone">Phone Number</Label>
               <Input
                 id="phone"
                 value={profileForm.phone}
@@ -115,7 +115,7 @@ export default function AdminProfilePage() {
             </div>
             <Button type="submit" variant="brass" disabled={isSavingProfile} className="mt-1 self-start">
               {isSavingProfile ? <Loader2 className="h-4 w-4 animate-spin" /> : <Save className="h-4 w-4" />}
-              পরিবর্তন সংরক্ষণ করুন
+              Save Changes
             </Button>
           </form>
         </CardContent>
@@ -123,13 +123,13 @@ export default function AdminProfilePage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>পাসওয়ার্ড পরিবর্তন করুন</CardTitle>
-          <CardDescription>পাসওয়ার্ড পরিবর্তনের পর তোমাকে লগ আউট করে দেওয়া হবে।</CardDescription>
+          <CardTitle>Change Password</CardTitle>
+          <CardDescription>You'll be logged out after changing your password.</CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handlePasswordSubmit} className="flex flex-col gap-4">
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="currentPassword">বর্তমান পাসওয়ার্ড</Label>
+              <Label htmlFor="currentPassword">Current Password</Label>
               <Input
                 id="currentPassword"
                 type="password"
@@ -141,7 +141,7 @@ export default function AdminProfilePage() {
               )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="newPassword">নতুন পাসওয়ার্ড</Label>
+              <Label htmlFor="newPassword">New Password</Label>
               <Input
                 id="newPassword"
                 type="password"
@@ -153,7 +153,7 @@ export default function AdminProfilePage() {
               )}
             </div>
             <div className="flex flex-col gap-1.5">
-              <Label htmlFor="confirmPassword">নতুন পাসওয়ার্ড নিশ্চিত করুন</Label>
+              <Label htmlFor="confirmPassword">Confirm New Password</Label>
               <Input
                 id="confirmPassword"
                 type="password"
@@ -170,7 +170,7 @@ export default function AdminProfilePage() {
               ) : (
                 <KeyRound className="h-4 w-4" />
               )}
-              পাসওয়ার্ড পরিবর্তন করুন
+              Change Password
             </Button>
           </form>
         </CardContent>

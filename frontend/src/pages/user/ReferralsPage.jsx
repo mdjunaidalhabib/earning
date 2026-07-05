@@ -32,7 +32,7 @@ export default function ReferralsPage() {
         const { data } = await userService.getReferrals();
         if (isMounted) setReferrals(data.data);
       } catch (err) {
-        toast.error(err.response?.data?.message || "রেফারেল লোড করা যায়নি");
+        toast.error(err.response?.data?.message || "Failed to load referrals");
       } finally {
         if (isMounted) setIsLoading(false);
       }
@@ -47,10 +47,10 @@ export default function ReferralsPage() {
     try {
       await navigator.clipboard.writeText(referralLink);
       setCopied(true);
-      toast.success("রেফারেল লিংক কপি হয়েছে");
+      toast.success("Referral link copied");
       setTimeout(() => setCopied(false), 2000);
     } catch {
-      toast.error("লিংক কপি করা যায়নি");
+      toast.error("Failed to copy link");
     }
   }
 
@@ -58,18 +58,18 @@ export default function ReferralsPage() {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-          রেফারেল
+          Referral
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          বন্ধুদের আমন্ত্রণ জানাও এবং যোগ দেওয়া প্রতিটি ব্যক্তির জন্য বোনাস আয় করো।
+          বন্ধুদের আমন্ত্রণ জানাও এবং যোগ দেওয়া প্রতিটি Referral-এর জন্য Bonus আয় করো।
         </p>
       </div>
 
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
-        <StatCard icon={Users} label="মোট রেফারেল" value={referrals.length} accent="brass" />
+        <StatCard icon={Users} label="Total Referrals" value={referrals.length} accent="brass" />
         <StatCard
           icon={Gift}
-          label="অর্জিত বোনাস"
+          label="Bonus Earned"
           value={formatCurrency(totalBonusEarned)}
           accent="moss"
         />
@@ -77,9 +77,9 @@ export default function ReferralsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>তোমার রেফারেল লিংক</CardTitle>
+          <CardTitle>Your Referral Link</CardTitle>
           <CardDescription>
-            এই লিংকটি শেয়ার করো — এর মাধ্যমে যে কেউ সাইন আপ করলে সে তোমার রেফারেল হয়ে যাবে।
+            এই Link শেয়ার করো — এর মাধ্যমে যে কেউ Sign Up করলে সে তোমার Referral হয়ে যাবে।
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -87,11 +87,11 @@ export default function ReferralsPage() {
             <Input readOnly value={referralLink} className="font-mono text-sm" />
             <Button variant="brass" onClick={handleCopy} className="shrink-0">
               {copied ? <Check className="h-4 w-4" /> : <Copy className="h-4 w-4" />}
-              {copied ? "কপি হয়েছে" : "লিংক কপি করুন"}
+              {copied ? "Copied" : "Copy Link"}
             </Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            অথবা সরাসরি তোমার কোড শেয়ার করো:{" "}
+            অথবা সরাসরি তোমার Code শেয়ার করো:{" "}
             <span className="balance-figure text-foreground">{user?.referralCode}</span>
           </p>
         </CardContent>
@@ -99,7 +99,7 @@ export default function ReferralsPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>তোমার রেফারেলসমূহ</CardTitle>
+          <CardTitle>Your Referrals</CardTitle>
         </CardHeader>
         <CardContent>
           {isLoading ? (
@@ -111,8 +111,8 @@ export default function ReferralsPage() {
           ) : referrals.length === 0 ? (
             <EmptyState
               icon={Users}
-              title="এখনো কোনো রেফারেল নেই"
-              description="রেফারেল বোনাস আয় শুরু করতে উপরের লিংকটি শেয়ার করো।"
+              title="No referrals yet"
+              description="Share the link above to start earning referral bonuses."
             />
           ) : (
             <div className="divide-y divide-border">
@@ -126,7 +126,7 @@ export default function ReferralsPage() {
                       {r.referee?.name}
                     </p>
                     <p className="mt-0.5 text-xs text-muted-foreground">
-                      যোগ দিয়েছে {formatDate(r.referee?.createdAt)}
+                      Joined on {formatDate(r.referee?.createdAt)}
                     </p>
                   </div>
                   <div className="flex flex-col items-end gap-1.5">

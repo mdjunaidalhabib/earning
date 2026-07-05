@@ -6,9 +6,9 @@ import { cn } from "@/lib/utils";
  * @param {Array<{to: string, label: string, icon: React.ComponentType, end?: boolean}>} navItems
  * @param {boolean} isOpen - mobile drawer open state
  * @param {() => void} onClose
- * @param {string} brandLabel - e.g. "আর্নলেজার" or "আর্নলেজার অ্যাডমিন"
+ * @param {string} brandLabel - e.g. "EarnLedger" or "EarnLedger Admin"
  */
-export function DashboardSidebar({ navItems, isOpen, onClose, brandLabel = "আর্নলেজার" }) {
+export function DashboardSidebar({ navItems, isOpen, onClose, brandLabel = "EarnLedger" }) {
   return (
     <>
       {isOpen && (
@@ -37,7 +37,7 @@ export function DashboardSidebar({ navItems, isOpen, onClose, brandLabel = "আ�
           <button
             onClick={onClose}
             className="rounded-md p-1.5 text-paper/70 hover:bg-paper/10 lg:hidden"
-            aria-label="মেনু বন্ধ করুন"
+            aria-label="Close menu"
           >
             <X className="h-5 w-5" />
           </button>
@@ -73,7 +73,7 @@ export function DashboardSidebar({ navItems, isOpen, onClose, brandLabel = "আ�
         <div className="px-6 py-5">
           <div className="ledger-stripe mb-4" />
           <p className="text-xs text-paper/40">
-            &copy; {new Date().getFullYear()} {brandLabel}। সর্বস্বত্ব সংরক্ষিত।
+            &copy; {new Date().getFullYear()} {brandLabel}. All rights reserved.
           </p>
         </div>
       </aside>

@@ -10,11 +10,11 @@ export default function NotFoundPage() {
       </div>
       <h1 className="font-display text-4xl font-semibold text-foreground">404</h1>
       <p className="max-w-xs text-sm text-muted-foreground">
-        এই পাতাটি লেজারে নেই। চলো তোমাকে আবার সঠিক পথে ফিরিয়ে নিয়ে যাই।
+        এই Page টি Ledger-এ নেই। চলো তোমাকে আবার সঠিক পথে ফিরিয়ে নিয়ে যাই।
       </p>
       <Button asChild variant="brass" className="mt-2">
         <Link to="/">
-          <Home className="h-4 w-4" /> হোমে ফিরে যান
+          <Home className="h-4 w-4" /> Back to Home
         </Link>
       </Button>
     </div>

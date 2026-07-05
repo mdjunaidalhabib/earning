@@ -30,10 +30,10 @@ import {
 import { formatCurrency, formatDate } from "@/lib/utils";
 
 const methods = [
-  { value: "bkash", label: "বিকাশ" },
-  { value: "nagad", label: "নগদ" },
-  { value: "rocket", label: "রকেট" },
-  { value: "bank_transfer", label: "ব্যাংক ট্রান্সফার" },
+  { value: "bkash", label: "bKash" },
+  { value: "nagad", label: "Nagad" },
+  { value: "rocket", label: "Rocket" },
+  { value: "bank_transfer", label: "Bank Transfer" },
 ];
 
 const MIN_WITHDRAWAL = 100;
@@ -61,7 +61,7 @@ export default function WithdrawalsPage() {
       const { data } = await withdrawalService.getMine({ limit: 20 });
       setWithdrawals(data.data);
     } catch (err) {
-      toast.error(err.response?.data?.message || "উত্তোলন লোড করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to load withdrawals");
     } finally {
       setIsLoading(false);
     }
@@ -82,17 +82,17 @@ export default function WithdrawalsPage() {
     const amountNum = parseFloat(form.amount);
 
     if (!form.amount || Number.isNaN(amountNum)) {
-      newErrors.amount = "একটি সঠিক পরিমাণ লিখুন";
+      newErrors.amount = "Please enter a valid amount";
     } else if (amountNum < MIN_WITHDRAWAL) {
-      newErrors.amount = `সর্বনিম্ন উত্তোলন ${formatCurrency(MIN_WITHDRAWAL)}`;
+      newErrors.amount = `Minimum withdrawal ${formatCurrency(MIN_WITHDRAWAL)}`;
     } else if (amountNum > (user?.balance || 0)) {
-      newErrors.amount = "পরিমাণটি তোমার ব্যালেন্স থেকে বেশি";
+      newErrors.amount = "Amount exceeds your balance";
     }
 
-    if (!form.accountName.trim()) newErrors.accountName = "অ্যাকাউন্ট হোল্ডারের নাম আবশ্যক";
-    if (!form.accountNumber.trim()) newErrors.accountNumber = "অ্যাকাউন্ট নম্বর আবশ্যক";
+    if (!form.accountName.trim()) newErrors.accountName = "Account holder name is required";
+    if (!form.accountNumber.trim()) newErrors.accountNumber = "Account number is required";
     if (form.method === "bank_transfer" && !form.bankName.trim()) {
-      newErrors.bankName = "ব্যাংক ট্রান্সফারের জন্য ব্যাংকের নাম আবশ্যক";
+      newErrors.bankName = "Bank name is required for bank transfer";
     }
 
     return newErrors;
@@ -115,12 +115,12 @@ export default function WithdrawalsPage() {
           bankName: form.bankName.trim(),
         },
       });
-      toast.success("উত্তোলনের অনুরোধ জমা হয়েছে");
+      toast.success("Withdrawal request submitted");
       setIsDialogOpen(false);
       setForm({ amount: "", method: "bkash", accountName: "", accountNumber: "", bankName: "" });
       await Promise.all([loadWithdrawals(), refreshUser()]);
     } catch (err) {
-      toast.error(err.response?.data?.message || "উত্তোলনের অনুরোধ জমা দেওয়া যায়নি");
+      toast.error(err.response?.data?.message || "Failed to submit withdrawal request");
     } finally {
       setIsSubmitting(false);
     }
@@ -130,10 +130,10 @@ export default function WithdrawalsPage() {
     setCancellingId(id);
     try {
       await withdrawalService.cancel(id);
-      toast.success("উত্তোলন বাতিল করা হয়েছে এবং ব্যালেন্স ফেরত দেওয়া হয়েছে");
+      toast.success("Withdrawal cancelled and balance refunded");
       await Promise.all([loadWithdrawals(), refreshUser()]);
     } catch (err) {
-      toast.error(err.response?.data?.message || "উত্তোলন বাতিল করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to cancel withdrawal");
     } finally {
       setCancellingId(null);
     }
@@ -146,10 +146,10 @@ export default function WithdrawalsPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            উত্তোলন
+            Withdrawal
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            উপলব্ধ ব্যালেন্স:{" "}
+            Available Balance:{" "}
             <span className="balance-figure text-primary">{formatCurrency(user?.balance)}</span>
           </p>
         </div>
@@ -157,26 +157,26 @@ export default function WithdrawalsPage() {
         <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
           <DialogTrigger asChild>
             <Button variant="brass">
-              <Plus className="h-4 w-4" /> উত্তোলনের অনুরোধ করুন
+              <Plus className="h-4 w-4" /> Request Withdrawal
             </Button>
           </DialogTrigger>
           <DialogContent>
             <DialogHeader>
-              <DialogTitle>উত্তোলনের অনুরোধ করুন</DialogTitle>
+              <DialogTitle>Request Withdrawal</DialogTitle>
               <DialogDescription>
-                সর্বনিম্ন উত্তোলনযোগ্য পরিমাণ {formatCurrency(MIN_WITHDRAWAL)}।
+                Minimum Withdrawable Amount {formatCurrency(MIN_WITHDRAWAL)}.
               </DialogDescription>
             </DialogHeader>
 
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="amount">পরিমাণ</Label>
+                <Label htmlFor="amount">Amount</Label>
                 <Input
                   id="amount"
                   name="amount"
                   type="number"
                   step="0.01"
-                  placeholder="যেমন ৫০০"
+                  placeholder="e.g. 500"
                   value={form.amount}
                   onChange={handleChange}
                 />
@@ -184,7 +184,7 @@ export default function WithdrawalsPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="method">উত্তোলন পদ্ধতি</Label>
+                <Label htmlFor="method">Withdrawal Method</Label>
                 <Select value={form.method} onValueChange={(v) => setForm((p) => ({ ...p, method: v }))}>
                   <SelectTrigger id="method">
                     <SelectValue />
@@ -200,11 +200,11 @@ export default function WithdrawalsPage() {
               </div>
 
               <div className="flex flex-col gap-1.5">
-                <Label htmlFor="accountName">অ্যাকাউন্ট হোল্ডারের নাম</Label>
+                <Label htmlFor="accountName">Account Holder Name</Label>
                 <Input
                   id="accountName"
                   name="accountName"
-                  placeholder="অ্যাকাউন্টে থাকা পুরো নাম"
+                  placeholder="Full name as on your account"
                   value={form.accountName}
                   onChange={handleChange}
                 />
@@ -213,12 +213,12 @@ export default function WithdrawalsPage() {
 
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="accountNumber">
-                  {form.method === "bank_transfer" ? "অ্যাকাউন্ট নম্বর" : "মোবাইল নম্বর"}
+                  {form.method === "bank_transfer" ? "Account Number" : "Mobile Number"}
                 </Label>
                 <Input
                   id="accountNumber"
                   name="accountNumber"
-                  placeholder={form.method === "bank_transfer" ? "যেমন 0123456789" : "যেমন 01712345678"}
+                  placeholder={form.method === "bank_transfer" ? "e.g. 0123456789" : "e.g. 01712345678"}
                   value={form.accountNumber}
                   onChange={handleChange}
                 />
@@ -229,11 +229,11 @@ export default function WithdrawalsPage() {
 
               {form.method === "bank_transfer" && (
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="bankName">ব্যাংকের নাম</Label>
+                  <Label htmlFor="bankName">Bank Name</Label>
                   <Input
                     id="bankName"
                     name="bankName"
-                    placeholder="যেমন ডাচ-বাংলা ব্যাংক"
+                    placeholder="e.g. Dutch-Bangla Bank"
                     value={form.bankName}
                     onChange={handleChange}
                   />
@@ -244,12 +244,12 @@ export default function WithdrawalsPage() {
               <DialogFooter>
                 <DialogClose asChild>
                   <Button type="button" variant="outline">
-                    বাতিল
+                    Cancel
                   </Button>
                 </DialogClose>
                 <Button type="submit" variant="brass" disabled={isSubmitting}>
                   {isSubmitting && <Loader2 className="h-4 w-4 animate-spin" />}
-                  অনুরোধ জমা দিন
+                  Submit Request
                 </Button>
               </DialogFooter>
             </form>
@@ -266,8 +266,8 @@ export default function WithdrawalsPage() {
       ) : withdrawals.length === 0 ? (
         <EmptyState
           icon={Wallet}
-          title="এখনো কোনো উত্তোলনের অনুরোধ নেই"
-          description="পর্যাপ্ত আয় হয়ে গেলে এখান থেকে তোমার প্রথম উত্তোলনের অনুরোধ করো।"
+          title="No withdrawal requests yet"
+          description="Once you've earned enough, request your first withdrawal from here."
         />
       ) : (
         <div className="flex flex-col gap-3">
@@ -281,7 +281,7 @@ export default function WithdrawalsPage() {
                   {methodLabels[w.method]} &middot; {w.accountDetails.accountNumber}
                 </p>
                 <p className="mt-0.5 text-xs text-muted-foreground">
-                  অনুরোধ করা হয়েছে {formatDate(w.createdAt)}
+                  Requested on {formatDate(w.createdAt)}
                 </p>
               </div>
               <div className="flex flex-col items-end gap-1.5">
@@ -296,7 +296,7 @@ export default function WithdrawalsPage() {
                   size="icon"
                   onClick={() => handleCancel(w._id)}
                   disabled={cancellingId === w._id}
-                  aria-label="উত্তোলন বাতিল করুন"
+                  aria-label="Cancel Withdrawal"
                   className="text-rust hover:bg-rust/10 hover:text-rust"
                 >
                   {cancellingId === w._id ? (

@@ -12,12 +12,12 @@ import { DashboardSidebar } from "./DashboardSidebar";
 import { DashboardTopbar } from "./DashboardTopbar";
 
 const navItems = [
-  { to: "/admin", label: "সংক্ষিপ্ত বিবরণ", icon: LayoutDashboard, end: true },
-  { to: "/admin/tasks", label: "টাস্ক ব্যবস্থাপনা", icon: ListChecks },
-  { to: "/admin/submissions", label: "সাবমিশন পর্যালোচনা", icon: ClipboardCheck },
-  { to: "/admin/withdrawals", label: "উত্তোলন", icon: Wallet },
-  { to: "/admin/users", label: "ইউজার", icon: Users },
-  { to: "/admin/profile", label: "প্রোফাইল", icon: UserCircle },
+  { to: "/admin", label: "Overview", icon: LayoutDashboard, end: true },
+  { to: "/admin/tasks", label: "Task Management", icon: ListChecks },
+  { to: "/admin/submissions", label: "Submission Review", icon: ClipboardCheck },
+  { to: "/admin/withdrawals", label: "Withdrawal", icon: Wallet },
+  { to: "/admin/users", label: "User", icon: Users },
+  { to: "/admin/profile", label: "Profile", icon: UserCircle },
 ];
 
 export function AdminDashboardLayout() {
@@ -29,7 +29,7 @@ export function AdminDashboardLayout() {
         navItems={navItems}
         isOpen={sidebarOpen}
         onClose={() => setSidebarOpen(false)}
-        brandLabel="আর্নলেজার অ্যাডমিন"
+        brandLabel="EarnLedger Admin"
       />
 
       <div className="flex min-h-screen flex-1 flex-col">

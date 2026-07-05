@@ -32,7 +32,7 @@ export default function AdminSubmissionsPage() {
       const { data } = await adminService.getPendingSubmissions({ limit: 50 });
       setSubmissions(data.data);
     } catch (err) {
-      toast.error(err.response?.data?.message || "সাবমিশন লোড করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to load submissions");
     } finally {
       setIsLoading(false);
     }
@@ -46,10 +46,10 @@ export default function AdminSubmissionsPage() {
     setProcessingId(id);
     try {
       await adminService.reviewSubmission(id, { decision: "approve" });
-      toast.success("সাবমিশন অনুমোদিত এবং পুরস্কার জমা হয়েছে");
+      toast.success("Submission approved and reward credited");
       setSubmissions((prev) => prev.filter((s) => s._id !== id));
     } catch (err) {
-      toast.error(err.response?.data?.message || "সাবমিশন অনুমোদন করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to approve submission");
     } finally {
       setProcessingId(null);
     }
@@ -57,7 +57,7 @@ export default function AdminSubmissionsPage() {
 
   async function handleReject() {
     if (!rejectionReason.trim()) {
-      toast.error("প্রত্যাখ্যানের কারণ উল্লেখ করুন");
+      toast.error("Specify a reason for rejection");
       return;
     }
     setProcessingId(rejectTarget._id);
@@ -66,12 +66,12 @@ export default function AdminSubmissionsPage() {
         decision: "reject",
         rejectionReason: rejectionReason.trim(),
       });
-      toast.success("সাবমিশন প্রত্যাখ্যাত হয়েছে");
+      toast.success("Submission rejected");
       setSubmissions((prev) => prev.filter((s) => s._id !== rejectTarget._id));
       setRejectTarget(null);
       setRejectionReason("");
     } catch (err) {
-      toast.error(err.response?.data?.message || "সাবমিশন প্রত্যাখ্যান করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to reject submission");
     } finally {
       setProcessingId(null);
     }
@@ -81,10 +81,10 @@ export default function AdminSubmissionsPage() {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-          সাবমিশন পর্যালোচনা
+          Submission Review
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          অপেক্ষমাণ টাস্ক সম্পন্নগুলো অনুমোদন বা প্রত্যাখ্যান করো। অনুমোদন করলে সাথে সাথেই পুরস্কার জমা হয়ে যায়।
+          Pending Task Submission গুলো Approve বা Reject করো। Approve করলে সাথে সাথেই Reward জমা হয়ে যায়।
         </p>
       </div>
 
@@ -97,8 +97,8 @@ export default function AdminSubmissionsPage() {
       ) : submissions.length === 0 ? (
         <EmptyState
           icon={ClipboardCheck}
-          title="সব দেখা হয়ে গেছে"
-          description="এখন পর্যালোচনার জন্য কোনো অপেক্ষমাণ সাবমিশন নেই।"
+          title="You're all caught up"
+          description="No submissions are pending review right now."
         />
       ) : (
         <div className="flex flex-col gap-4">
@@ -113,7 +113,7 @@ export default function AdminSubmissionsPage() {
                     {sub.relatedTask?.title || sub.description}
                   </p>
                   <p className="mt-1 text-xs text-muted-foreground">
-                    সাবমিট করা হয়েছে {formatDate(sub.createdAt)}
+                    Submitted on {formatDate(sub.createdAt)}
                   </p>
                 </div>
                 <span className="balance-figure whitespace-nowrap text-lg text-primary">
@@ -123,7 +123,7 @@ export default function AdminSubmissionsPage() {
 
               {sub.proof?.value && (
                 <div className="mt-3 rounded-lg bg-secondary p-3">
-                  <p className="eyebrow mb-1">প্রমাণ ({sub.proof.type})</p>
+                  <p className="eyebrow mb-1">Proof ({sub.proof.type})</p>
                   {sub.proof.type === "link" || sub.proof.type === "screenshot" ? (
                     <a
                       href={sub.proof.value}
@@ -149,7 +149,7 @@ export default function AdminSubmissionsPage() {
                   onClick={() => setRejectTarget(sub)}
                   disabled={processingId === sub._id}
                 >
-                  <X className="h-4 w-4" /> প্রত্যাখ্যান
+                  <X className="h-4 w-4" /> Reject
                 </Button>
                 <Button
                   variant="success"
@@ -162,7 +162,7 @@ export default function AdminSubmissionsPage() {
                   ) : (
                     <Check className="h-4 w-4" />
                   )}
-                  অনুমোদন
+                  Approve
                 </Button>
               </div>
             </div>
@@ -173,24 +173,24 @@ export default function AdminSubmissionsPage() {
       <Dialog open={!!rejectTarget} onOpenChange={(open) => !open && setRejectTarget(null)}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>সাবমিশন প্রত্যাখ্যান করুন</DialogTitle>
+            <DialogTitle>Reject Submission</DialogTitle>
             <DialogDescription>
-              একটি কারণ উল্লেখ করো যাতে ইউজার বুঝতে পারে কেন এটি প্রত্যাখ্যাত হয়েছে।
+              একটি Reason উল্লেখ করো যাতে User বুঝতে পারে কেন এটি Reject হয়েছে।
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">
-            <Label htmlFor="rejectionReason">প্রত্যাখ্যানের কারণ</Label>
+            <Label htmlFor="rejectionReason">Rejection Reason</Label>
             <Textarea
               id="rejectionReason"
               value={rejectionReason}
               onChange={(e) => setRejectionReason(e.target.value)}
-              placeholder="যেমন: স্ক্রিনশট টাস্কের প্রয়োজনীয়তার সাথে মিলছে না"
+              placeholder="e.g. Screenshot doesn't match task requirements"
             />
           </div>
           <DialogFooter>
             <DialogClose asChild>
               <Button type="button" variant="outline">
-                বাতিল
+                Cancel
               </Button>
             </DialogClose>
             <Button
@@ -202,7 +202,7 @@ export default function AdminSubmissionsPage() {
               {processingId === rejectTarget?._id && (
                 <Loader2 className="h-4 w-4 animate-spin" />
               )}
-              সাবমিশন প্রত্যাখ্যান করুন
+              Reject Submission
             </Button>
           </DialogFooter>
         </DialogContent>

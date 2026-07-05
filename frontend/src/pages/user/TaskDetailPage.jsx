@@ -14,18 +14,18 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { formatCurrency } from "@/lib/utils";
 
 const categoryLabels = {
-  survey: "সার্ভে",
-  ad_view: "বিজ্ঞাপন দেখুন",
-  app_install: "অ্যাপ ইনস্টল",
-  social_follow: "সোশ্যাল ফলো",
-  offer: "অফার",
-  custom: "কাস্টম",
+  survey: "Survey",
+  ad_view: "Watch Ads",
+  app_install: "App Install",
+  social_follow: "Social Follow",
+  offer: "Offer",
+  custom: "Custom",
 };
 
 const proofPlaceholders = {
-  screenshot: "স্ক্রিনশট URL পেস্ট করো (যেমন Imgur বা Cloudinary থেকে)",
-  text: "টাস্কটি কিভাবে সম্পন্ন করেছো তা লিখো",
-  link: "সম্পন্ন করার প্রমাণ হিসেবে লিংক পেস্ট করো (যেমন তোমার পোস্টের URL)",
+  screenshot: "Paste a screenshot URL (e.g. from Imgur or Cloudinary)",
+  text: "Describe how you completed this task",
+  link: "Paste a link as proof of completion (e.g. your post's URL)",
 };
 
 export default function TaskDetailPage() {
@@ -47,7 +47,7 @@ export default function TaskDetailPage() {
         const { data } = await taskService.getTaskById(id);
         if (isMounted) setTask(data.data);
       } catch (err) {
-        toast.error(err.response?.data?.message || "টাস্ক পাওয়া যায়নি");
+        toast.error(err.response?.data?.message || "Task not found");
         navigate("/dashboard/tasks");
       } finally {
         if (isMounted) setIsLoading(false);
@@ -64,7 +64,7 @@ export default function TaskDetailPage() {
     e.preventDefault();
 
     if (task.proofRequired && task.proofType !== "none" && !proofValue.trim()) {
-      setError("এই টাস্কের জন্য সম্পন্ন করার প্রমাণ আবশ্যক");
+      setError("Proof of completion is required for this task");
       return;
     }
     setError("");
@@ -78,9 +78,9 @@ export default function TaskDetailPage() {
         },
       });
       setJustSubmitted(true);
-      toast.success("সাবমিট হয়েছে! অ্যাডমিনের পর্যালোচনার অপেক্ষায়।");
+      toast.success("Submitted! Waiting for admin review.");
     } catch (err) {
-      toast.error(err.response?.data?.message || "টাস্ক সাবমিট করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to submit task");
     } finally {
       setIsSubmitting(false);
     }
@@ -105,7 +105,7 @@ export default function TaskDetailPage() {
         to="/dashboard/tasks"
         className="flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
       >
-        <ArrowLeft className="h-4 w-4" /> টাস্কে ফিরে যান
+        <ArrowLeft className="h-4 w-4" /> Back to Tasks
       </Link>
 
       <Card>
@@ -127,7 +127,7 @@ export default function TaskDetailPage() {
 
           {task.instructions && (
             <div className="rounded-lg bg-secondary p-4">
-              <p className="eyebrow mb-1.5">নির্দেশনা</p>
+              <p className="eyebrow mb-1.5">Instructions</p>
               <p className="text-sm text-foreground">{task.instructions}</p>
             </div>
           )}
@@ -139,7 +139,7 @@ export default function TaskDetailPage() {
               rel="noopener noreferrer"
               className="flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
             >
-              টাস্ক লিংক খুলুন <ExternalLink className="h-3.5 w-3.5" />
+              Open Task Link <ExternalLink className="h-3.5 w-3.5" />
             </a>
           )}
 
@@ -152,25 +152,25 @@ export default function TaskDetailPage() {
               </div>
               <div>
                 <p className="font-display text-base font-semibold text-foreground">
-                  সাবমিশন গৃহীত হয়েছে
+                  Submission Accepted
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  একজন অ্যাডমিন শীঘ্রই তোমার সাবমিশন পর্যালোচনা করবেন।
+                  একজন Admin শীঘ্রই তোমার Submission Review করবেন।
                 </p>
               </div>
               <Button asChild variant="brass" size="sm" className="mt-1">
-                <Link to="/dashboard/tasks">আরো টাস্ক দেখুন</Link>
+                <Link to="/dashboard/tasks">View More Tasks</Link>
               </Button>
             </div>
           ) : !isAvailable ? (
             <div className="rounded-lg bg-muted p-4 text-center text-sm text-muted-foreground">
-              তুমি ইতিমধ্যে এই টাস্কটি সর্বোচ্চ সংখ্যকবার সম্পন্ন করে ফেলেছো।
+              তুমি ইতিমধ্যে এই Task সর্বোচ্চ সংখ্যকবার Complete করে ফেলেছো।
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">
               {task.proofRequired && task.proofType !== "none" && (
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="proof">সম্পন্ন করার প্রমাণ</Label>
+                  <Label htmlFor="proof">Proof of Completion</Label>
                   {task.proofType === "text" ? (
                     <Textarea
                       id="proof"
@@ -196,7 +196,7 @@ export default function TaskDetailPage() {
                 ) : (
                   <Send className="h-4 w-4" />
                 )}
-                {isSubmitting ? "সাবমিট হচ্ছে…" : "টাস্ক সাবমিট করুন"}
+                {isSubmitting ? "Submitting…" : "Submit Task"}
               </Button>
             </form>
           )}

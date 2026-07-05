@@ -4,11 +4,11 @@ import { formatCurrency, formatDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 
 const typeMeta = {
-  task_earning: { icon: ListChecks, label: "টাস্ক থেকে আয়", isCredit: true },
-  referral_bonus: { icon: Users, label: "রেফারেল বোনাস", isCredit: true },
-  withdrawal: { icon: Wallet, label: "উত্তোলন", isCredit: false },
-  admin_credit: { icon: ArrowDownLeft, label: "অ্যাডমিন ক্রেডিট", isCredit: true },
-  admin_debit: { icon: ArrowUpRight, label: "অ্যাডমিন ডেবিট", isCredit: false },
+  task_earning: { icon: ListChecks, label: "Task Earnings", isCredit: true },
+  referral_bonus: { icon: Users, label: "Referral Bonus", isCredit: true },
+  withdrawal: { icon: Wallet, label: "Withdrawal", isCredit: false },
+  admin_credit: { icon: ArrowDownLeft, label: "Admin Credit", isCredit: true },
+  admin_debit: { icon: ArrowUpRight, label: "Admin Debit", isCredit: false },
 };
 
 export function LedgerRow({ transaction }) {

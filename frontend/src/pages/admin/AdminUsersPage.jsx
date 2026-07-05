@@ -25,7 +25,7 @@ export default function AdminUsersPage() {
       const { data } = await adminService.getAllUsers(params);
       setUsers(data.data);
     } catch (err) {
-      toast.error(err.response?.data?.message || "ইউজার লোড করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to load users");
     } finally {
       setIsLoading(false);
     }
@@ -45,12 +45,12 @@ export default function AdminUsersPage() {
     setProcessingId(user._id);
     try {
       await adminService.updateUserStatus(user._id, !user.isActive);
-      toast.success(`ইউজার সফলভাবে ${user.isActive ? "স্থগিত" : "পুনরায় সক্রিয়"} করা হয়েছে`);
+      toast.success(`User successfully ${user.isActive ? "Suspended" : "Reactivated"}`);
       setUsers((prev) =>
         prev.map((u) => (u._id === user._id ? { ...u, isActive: !u.isActive } : u))
       );
     } catch (err) {
-      toast.error(err.response?.data?.message || "ইউজারের অবস্থা আপডেট করা যায়নি");
+      toast.error(err.response?.data?.message || "Failed to update user status");
     } finally {
       setProcessingId(null);
     }
@@ -61,16 +61,16 @@ export default function AdminUsersPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            ইউজার
+            User
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            প্ল্যাটফর্মের ইউজারদের অনুসন্ধান, পর্যালোচনা ও পরিচালনা করো।
+            Platform-এর Users অনুসন্ধান, পর্যালোচনা ও পরিচালনা করো।
           </p>
         </div>
         <div className="relative w-full sm:w-64">
           <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
           <Input
-            placeholder="নাম বা ইমেইল দিয়ে অনুসন্ধান করুন"
+            placeholder="Search by name or email"
             value={search}
             onChange={(e) => setSearch(e.target.value)}
             className="pl-9"
@@ -85,19 +85,19 @@ export default function AdminUsersPage() {
           ))}
         </div>
       ) : users.length === 0 ? (
-        <EmptyState icon={Users} title="কোনো ইউজার পাওয়া যায়নি" description="ভিন্ন কিছু দিয়ে অনুসন্ধান করে দেখো।" />
+        <EmptyState icon={Users} title="No users found" description="Try searching for something else." />
       ) : (
         <div className="ledger-card overflow-hidden">
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-border bg-secondary/50">
                 <tr>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">ইউজার</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">ব্যালেন্স</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">মোট আয়</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">যোগদান</th>
-                  <th className="px-4 py-3 font-medium text-muted-foreground">অবস্থা</th>
-                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">কার্যক্রম</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">User</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Balance</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Total Earnings</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Joined</th>
+                  <th className="px-4 py-3 font-medium text-muted-foreground">Status</th>
+                  <th className="px-4 py-3 text-right font-medium text-muted-foreground">Actions</th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-border">
@@ -123,7 +123,7 @@ export default function AdminUsersPage() {
                     <td className="px-4 py-3 text-muted-foreground">{formatDate(u.createdAt)}</td>
                     <td className="px-4 py-3">
                       <Badge variant={u.isActive ? "success" : "rejected"}>
-                        {u.isActive ? "সক্রিয়" : "স্থগিত"}
+                        {u.isActive ? "Active" : "Suspended"}
                       </Badge>
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -141,7 +141,7 @@ export default function AdminUsersPage() {
                         ) : (
                           <CheckCircle2 className="h-4 w-4" />
                         )}
-                        {u.isActive ? "স্থগিত করুন" : "পুনরায় সক্রিয় করুন"}
+                        {u.isActive ? "Suspend" : "Reactivate"}
                       </Button>
                     </td>
                   </tr>

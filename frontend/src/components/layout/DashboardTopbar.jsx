@@ -19,11 +19,12 @@ export function DashboardTopbar({ onMenuClick, showBalance = true }) {
 
   async function handleLogout() {
     try {
+      const wasAdmin = user?.role === "admin";
       await logout();
-      toast.success("সফলভাবে লগ আউট হয়েছে");
-      navigate("/login");
+      toast.success("Logged out successfully");
+      navigate(wasAdmin ? "/admin/login" : "/login");
     } catch {
-      toast.error("লগ আউট করতে সমস্যা হয়েছে");
+      toast.error("Trouble logging out");
     }
   }
 
@@ -32,7 +33,7 @@ export function DashboardTopbar({ onMenuClick, showBalance = true }) {
       <button
         onClick={onMenuClick}
         className="rounded-md p-2 text-foreground hover:bg-muted lg:hidden"
-        aria-label="মেনু খুলুন"
+        aria-label="Open menu"
       >
         <Menu className="h-5 w-5" />
       </button>
@@ -42,7 +43,7 @@ export function DashboardTopbar({ onMenuClick, showBalance = true }) {
       <div className="flex items-center gap-3 sm:gap-4">
         {showBalance && (
           <div className="hidden items-center gap-2 rounded-full border border-border bg-secondary px-3.5 py-1.5 sm:flex">
-            <span className="eyebrow !text-[10px] text-muted-foreground">ব্যালেন্স</span>
+            <span className="eyebrow !text-[10px] text-muted-foreground">Balance</span>
             <span className="balance-figure text-sm text-primary">
               {formatCurrency(user?.balance)}
             </span>
@@ -65,12 +66,12 @@ export function DashboardTopbar({ onMenuClick, showBalance = true }) {
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={() => navigate(user?.role === "admin" ? "/admin/profile" : "/dashboard/profile")}>
               <UserIcon className="h-4 w-4" />
-              প্রোফাইল
+              Profile
             </DropdownMenuItem>
             <DropdownMenuSeparator />
             <DropdownMenuItem onClick={handleLogout} className="text-rust focus:text-rust">
               <LogOut className="h-4 w-4" />
-              লগ আউট
+              Log Out
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>

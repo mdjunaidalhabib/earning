@@ -16,13 +16,13 @@ import {
 } from "@/components/ui/select";
 
 const categories = [
-  { value: "all", label: "সব ক্যাটাগরি" },
-  { value: "survey", label: "সার্ভে" },
-  { value: "ad_view", label: "বিজ্ঞাপন দেখুন" },
-  { value: "app_install", label: "অ্যাপ ইনস্টল" },
-  { value: "social_follow", label: "সোশ্যাল ফলো" },
-  { value: "offer", label: "অফার" },
-  { value: "custom", label: "কাস্টম" },
+  { value: "all", label: "All Categories" },
+  { value: "survey", label: "Survey" },
+  { value: "ad_view", label: "Watch Ads" },
+  { value: "app_install", label: "App Install" },
+  { value: "social_follow", label: "Social Follow" },
+  { value: "offer", label: "Offer" },
+  { value: "custom", label: "Custom" },
 ];
 
 export default function TasksPage() {
@@ -45,7 +45,7 @@ export default function TasksPage() {
         setTasks(data.data);
         setMeta(data.meta);
       } catch (err) {
-        toast.error(err.response?.data?.message || "টাস্ক লোড করা যায়নি");
+        toast.error(err.response?.data?.message || "Failed to load tasks");
       } finally {
         if (isMounted) setIsLoading(false);
       }
@@ -62,10 +62,10 @@ export default function TasksPage() {
       <div className="flex flex-col justify-between gap-4 sm:flex-row sm:items-center">
         <div>
           <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-            আয়ের টাস্ক
+            Earning Tasks
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            নিচের টাস্কগুলো সম্পন্ন করলে তোমার ব্যালেন্সে পুরস্কার জমা হবে।
+            নিচের Task গুলো Complete করলে তোমার Balance-এ Reward জমা হবে।
           </p>
         </div>
 
@@ -77,7 +77,7 @@ export default function TasksPage() {
           }}
         >
           <SelectTrigger className="w-full sm:w-56">
-            <SelectValue placeholder="ক্যাটাগরি অনুযায়ী ফিল্টার করুন" />
+            <SelectValue placeholder="Filter by category" />
           </SelectTrigger>
           <SelectContent>
             {categories.map((c) => (
@@ -98,8 +98,8 @@ export default function TasksPage() {
       ) : tasks.length === 0 ? (
         <EmptyState
           icon={ListChecks}
-          title="এখন কোনো টাস্ক উপলব্ধ নেই"
-          description="একটু পরে আবার দেখো — নিয়মিত নতুন টাস্ক যোগ করা হয়।"
+          title="No tasks available right now"
+          description="Check back soon — new tasks are added regularly."
         />
       ) : (
         <>
@@ -117,10 +117,10 @@ export default function TasksPage() {
                 disabled={page <= 1}
                 onClick={() => setPage((p) => p - 1)}
               >
-                <ChevronLeft className="h-4 w-4" /> আগের
+                <ChevronLeft className="h-4 w-4" /> Previous
               </Button>
               <span className="text-sm text-muted-foreground">
-                পৃষ্ঠা {page} / {meta.totalPages}
+                Page {page} / {meta.totalPages}
               </span>
               <Button
                 variant="outline"
@@ -128,7 +128,7 @@ export default function TasksPage() {
                 disabled={page >= meta.totalPages}
                 onClick={() => setPage((p) => p + 1)}
               >
-                পরের <ChevronRight className="h-4 w-4" />
+                Next <ChevronRight className="h-4 w-4" />
               </Button>
             </div>
           )}

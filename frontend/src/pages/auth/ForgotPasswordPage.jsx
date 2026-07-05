@@ -20,11 +20,11 @@ export default function ForgotPasswordPage() {
     e.preventDefault();
 
     if (!email.trim()) {
-      setError("ইমেইল আবশ্যক");
+      setError("Email is required");
       return;
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setError("একটি সঠিক ইমেইল ঠিকানা দিন");
+      setError("Please enter a valid email address");
       return;
     }
     setError("");
@@ -39,7 +39,7 @@ export default function ForgotPasswordPage() {
         setDevResetUrl(data.data.resetUrl);
       }
     } catch (err) {
-      toast.error(err.response?.data?.message || "কিছু একটা সমস্যা হয়েছে। আবার চেষ্টা করুন।");
+      toast.error(err.response?.data?.message || "Something went wrong. Please try again.");
     } finally {
       setIsSubmitting(false);
     }
@@ -55,7 +55,7 @@ export default function ForgotPasswordPage() {
             to="/login"
             className="mb-6 flex items-center gap-1.5 text-sm font-medium text-muted-foreground hover:text-foreground"
           >
-            <ArrowLeft className="h-4 w-4" /> লগ ইনে ফিরে যান
+            <ArrowLeft className="h-4 w-4" /> Back to Login
           </Link>
 
           {isSubmitted ? (
@@ -64,17 +64,17 @@ export default function ForgotPasswordPage() {
                 <CheckCircle2 className="h-7 w-7 text-moss" />
               </div>
               <h1 className="font-display text-xl font-semibold text-foreground">
-                তোমার ইমেইল চেক করো
+                Check Your Email
               </h1>
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium">{email}</span> এর জন্য যদি কোনো অ্যাকাউন্ট থেকে থাকে,
-                তাহলে পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে।
+                <span className="font-medium">{email}</span> এর জন্য যদি কোনো Account থেকে থাকে,
+                তাহলে একটি Password Reset Link পাঠানো হয়েছে।
               </p>
 
               {devResetUrl && (
                 <div className="mt-4 w-full rounded-lg border border-brass/40 bg-brass/10 p-3.5 text-left">
                   <p className="eyebrow mb-1.5 text-brass-dark">
-                    ডেভ মোড — এখনো কোনো ইমেইল প্রোভাইডার সেট করা হয়নি
+                    Dev Mode — এখনো কোনো Email Provider সেট করা হয়নি
                   </p>
                   <a
                     href={devResetUrl}
@@ -89,16 +89,16 @@ export default function ForgotPasswordPage() {
             <>
               <div className="mb-8">
                 <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-                  পাসওয়ার্ড ভুলে গেছেন?
+                  Password ভুলে গেছেন?
                 </h1>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  তোমার ইমেইল দাও, আমরা রিসেট করার লিংক পাঠিয়ে দেব।
+                  তোমার Email দাও, আমরা Reset Link পাঠিয়ে দেব।
                 </p>
               </div>
 
               <form onSubmit={handleSubmit} className="flex flex-col gap-5" noValidate>
                 <div className="flex flex-col gap-1.5">
-                  <Label htmlFor="email">ইমেইল ঠিকানা</Label>
+                  <Label htmlFor="email">Email Address</Label>
                   <Input
                     id="email"
                     type="email"
@@ -119,7 +119,7 @@ export default function ForgotPasswordPage() {
                   ) : (
                     <Mail className="h-4 w-4" />
                   )}
-                  {isSubmitting ? "পাঠানো হচ্ছে…" : "রিসেট লিংক পাঠান"}
+                  {isSubmitting ? "Sending…" : "Send Reset Link"}
                 </Button>
               </form>
             </>

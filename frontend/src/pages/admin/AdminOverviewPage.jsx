@@ -47,7 +47,7 @@ export default function AdminOverviewPage() {
         const { data } = await adminService.getDashboardStats();
         if (isMounted) setStats(data.data);
       } catch (err) {
-        toast.error(err.response?.data?.message || "ড্যাশবোর্ড পরিসংখ্যান লোড করা যায়নি");
+        toast.error(err.response?.data?.message || "Failed to load dashboard stats");
       } finally {
         if (isMounted) setIsLoading(false);
       }
@@ -67,10 +67,10 @@ export default function AdminOverviewPage() {
     <div className="flex flex-col gap-6">
       <div>
         <h1 className="font-display text-2xl font-semibold text-foreground sm:text-3xl">
-          অ্যাডমিন সংক্ষিপ্ত বিবরণ
+          Admin Overview
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          প্ল্যাটফর্ম জুড়ে মেট্রিক্স এবং অপেক্ষমাণ কার্যক্রম।
+          Platform জুড়ে Metrics এবং Pending Actions.
         </p>
       </div>
 
@@ -82,35 +82,35 @@ export default function AdminOverviewPage() {
         </div>
       ) : (
         <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
-          <StatCard icon={Users} label="মোট ইউজার" value={stats.totalUsers} accent="ink" />
+          <StatCard icon={Users} label="Total Users" value={stats.totalUsers} accent="ink" />
           <StatCard
             icon={Users}
-            label="সক্রিয় ইউজার"
+            label="Active Users"
             value={stats.activeUsers}
             accent="moss"
           />
-          <StatCard icon={ListChecks} label="সক্রিয় টাস্ক" value={stats.activeTasks} accent="brass" hint={`মোট ${stats.totalTasks}টি`} />
+          <StatCard icon={ListChecks} label="Active Tasks" value={stats.activeTasks} accent="brass" hint={`Total ${stats.totalTasks}`} />
           <StatCard
             icon={ClipboardCheck}
-            label="অপেক্ষমাণ পর্যালোচনা"
+            label="Pending Review"
             value={stats.pendingSubmissions}
             accent="rust"
           />
           <StatCard
             icon={Wallet}
-            label="অপেক্ষমাণ উত্তোলন"
+            label="Pending Withdrawals"
             value={stats.pendingWithdrawals}
             accent="rust"
           />
           <StatCard
             icon={CircleDollarSign}
-            label="মোট প্রদান করা হয়েছে"
+            label="Total Paid Out"
             value={formatCurrency(stats.totalPaidOut)}
             accent="moss"
           />
           <StatCard
             icon={TrendingUp}
-            label="অপেক্ষমাণ প্রদানের পরিমাণ"
+            label="Pending Payout Amount"
             value={formatCurrency(stats.totalPendingWithdrawalAmount)}
             accent="brass"
           />
@@ -119,15 +119,15 @@ export default function AdminOverviewPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle>আয়ের প্রবণতা</CardTitle>
-          <CardDescription>গত ১৪ দিনের অনুমোদিত টাস্ক আয়</CardDescription>
+          <CardTitle>Earnings Trend</CardTitle>
+          <CardDescription>Approved task earnings for the last 14 days</CardDescription>
         </CardHeader>
         <CardContent>
           {isLoading ? (
             <Skeleton className="h-64 w-full rounded-lg" />
           ) : chartData.length === 0 ? (
             <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">
-              এই সময়ের জন্য এখনো কোনো আয়ের তথ্য নেই।
+              এই সময়ের জন্য এখনো কোনো Earnings Data নেই।
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={280}>
