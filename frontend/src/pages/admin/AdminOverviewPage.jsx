@@ -70,7 +70,7 @@ export default function AdminOverviewPage() {
           Admin Overview
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Platform জুড়ে Metrics এবং Pending Actions.
+          পুরো প্ল্যাটফর্মের পরিসংখ্যান আর যেসব কাজ এখনো করা বাকি।
         </p>
       </div>
 
@@ -127,7 +127,7 @@ export default function AdminOverviewPage() {
             <Skeleton className="h-64 w-full rounded-lg" />
           ) : chartData.length === 0 ? (
             <div className="flex h-64 items-center justify-center text-sm text-muted-foreground">
-              এই সময়ের জন্য এখনো কোনো Earnings Data নেই।
+              এই সময়ের জন্য এখনো কোনো আয়ের তথ্য জমা হয়নি।
             </div>
           ) : (
             <ResponsiveContainer width="100%" height={280}>

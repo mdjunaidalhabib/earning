@@ -73,7 +73,7 @@ export default function ResetPasswordPage() {
               Set a New Password
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              এমন একটি Strong Password বেছে নাও যা আগে ব্যবহার করোনি।
+              এমন একটা শক্তিশালী পাসওয়ার্ড বেছে নাও, যেটা আগে ব্যবহার করোনি।
             </p>
           </div>
 

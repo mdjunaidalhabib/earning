@@ -67,14 +67,14 @@ export default function ForgotPasswordPage() {
                 Check Your Email
               </h1>
               <p className="text-sm text-muted-foreground">
-                <span className="font-medium">{email}</span> এর জন্য যদি কোনো Account থেকে থাকে,
-                তাহলে একটি Password Reset Link পাঠানো হয়েছে।
+                <span className="font-medium">{email}</span>-এ যদি কোনো অ্যাকাউন্ট থেকে থাকে, তাহলে সেখানে
+                একটা পাসওয়ার্ড রিসেট লিংক পাঠানো হয়েছে।
               </p>
 
               {devResetUrl && (
                 <div className="mt-4 w-full rounded-lg border border-brass/40 bg-brass/10 p-3.5 text-left">
                   <p className="eyebrow mb-1.5 text-brass-dark">
-                    Dev Mode — এখনো কোনো Email Provider সেট করা হয়নি
+                    ডেভ মোড — এখনো কোনো ইমেইল প্রোভাইডার সেট করা হয়নি
                   </p>
                   <a
                     href={devResetUrl}
@@ -92,7 +92,7 @@ export default function ForgotPasswordPage() {
                   Password ভুলে গেছেন?
                 </h1>
                 <p className="mt-2 text-sm text-muted-foreground">
-                  তোমার Email দাও, আমরা Reset Link পাঠিয়ে দেব।
+                  তোমার ইমেইল দাও, আমরা পাসওয়ার্ড রিসেট করার লিংক পাঠিয়ে দেব।
                 </p>
               </div>
 

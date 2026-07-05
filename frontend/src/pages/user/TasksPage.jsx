@@ -65,7 +65,7 @@ export default function TasksPage() {
             Earning Tasks
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            নিচের Task গুলো Complete করলে তোমার Balance-এ Reward জমা হবে।
+            নিচের কাজগুলো শেষ করলেই তোমার ব্যালেন্সে পুরস্কারের টাকা জমা হয়ে যাবে।
           </p>
         </div>
 

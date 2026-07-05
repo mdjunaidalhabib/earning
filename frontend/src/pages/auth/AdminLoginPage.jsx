@@ -73,7 +73,7 @@ export default function AdminLoginPage() {
               Admin Login
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              Platform পরিচালনার জন্য admin account দিয়ে Log In করো।
+              প্ল্যাটফর্ম পরিচালনা করতে অ্যাডমিন অ্যাকাউন্ট দিয়ে লগ ইন করো।
             </p>
           </div>
 

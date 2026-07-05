@@ -208,7 +208,7 @@ export default function AdminTasksPage() {
             Task Management
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Users-দের জন্য Earning Opportunity তৈরি ও পরিচালনা করো।
+            ইউজারদের জন্য নতুন কাজ তৈরি করো আর পুরনো কাজগুলো পরিচালনা করো।
           </p>
         </div>
         <Button variant="brass" onClick={openCreateForm}>
@@ -290,7 +290,7 @@ export default function AdminTasksPage() {
           <DialogHeader>
             <DialogTitle>{editingTask ? "Edit Task" : "Create New Task"}</DialogTitle>
             <DialogDescription>
-              এই Earning Opportunity-র বিস্তারিত তথ্য পূরণ করো।
+              এই কাজের বিস্তারিত তথ্য পূরণ করো।
             </DialogDescription>
           </DialogHeader>
 
@@ -312,7 +312,7 @@ export default function AdminTasksPage() {
               {errors.description && <p className="text-xs text-rust">{errors.description}</p>}
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label>Category</Label>
                 <Select value={form.category} onValueChange={(v) => setForm((p) => ({ ...p, category: v }))}>
@@ -369,7 +369,7 @@ export default function AdminTasksPage() {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label>Proof Type</Label>
                 <Select value={form.proofType} onValueChange={(v) => setForm((p) => ({ ...p, proofType: v }))}>
@@ -403,7 +403,7 @@ export default function AdminTasksPage() {
               </div>
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <div className="flex flex-col gap-1.5">
                 <Label htmlFor="maxCompletions">
                   Max Completions <span className="text-muted-foreground">(Blank = Unlimited)</span>
@@ -462,7 +462,7 @@ export default function AdminTasksPage() {
         open={!!deleteTarget}
         onOpenChange={(open) => !open && setDeleteTarget(null)}
         title="Delete this task?"
-        description={`"${deleteTarget?.title}" স্থায়ীভাবে Delete হয়ে যাবে। এটি Undo করা যাবে না।`}
+        description={`"${deleteTarget?.title}" স্থায়ীভাবে মুছে যাবে। এটি আর ফিরিয়ে আনা যাবে না।`}
         confirmLabel="Delete Task"
         isLoading={isDeleting}
         onConfirm={handleDelete}

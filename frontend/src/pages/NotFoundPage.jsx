@@ -10,7 +10,7 @@ export default function NotFoundPage() {
       </div>
       <h1 className="font-display text-4xl font-semibold text-foreground">404</h1>
       <p className="max-w-xs text-sm text-muted-foreground">
-        এই Page টি Ledger-এ নেই। চলো তোমাকে আবার সঠিক পথে ফিরিয়ে নিয়ে যাই।
+        এই পেজটা খুঁজে পাওয়া যায়নি। চলো, তোমাকে আবার সঠিক জায়গায় ফিরিয়ে নিয়ে যাই।
       </p>
       <Button asChild variant="brass" className="mt-2">
         <Link to="/">

@@ -64,7 +64,7 @@ export default function AdminUsersPage() {
             User
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Platform-এর Users অনুসন্ধান, পর্যালোচনা ও পরিচালনা করো।
+            প্ল্যাটফর্মের ইউজারদের খুঁজে বের করো, যাচাই করো, আর পরিচালনা করো।
           </p>
         </div>
         <div className="relative w-full sm:w-64">

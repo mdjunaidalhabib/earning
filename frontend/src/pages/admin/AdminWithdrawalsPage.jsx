@@ -100,7 +100,7 @@ export default function AdminWithdrawalsPage() {
             Withdrawal
           </h1>
           <p className="mt-1 text-sm text-muted-foreground">
-            Users-দের Withdrawal Request পর্যালোচনা ও প্রক্রিয়া করো।
+            ইউজারদের টাকা তোলার আবেদনগুলো যাচাই করো আর প্রসেস করো।
           </p>
         </div>
         <Select value={filter} onValueChange={setFilter}>
@@ -195,7 +195,7 @@ export default function AdminWithdrawalsPage() {
           <DialogHeader>
             <DialogTitle>Reject Withdrawal</DialogTitle>
             <DialogDescription>
-              Reserved Balance স্বয়ংক্রিয়ভাবে User-এর Account-এ ফেরত দেওয়া হবে।
+              আটকে রাখা ব্যালেন্স স্বয়ংক্রিয়ভাবে ইউজারের অ্যাকাউন্টে ফেরত চলে যাবে।
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">

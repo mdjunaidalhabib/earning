@@ -51,7 +51,7 @@ export default function UserOverviewPage() {
           Welcome back, {user?.name?.split(" ")[0]}
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          আজকের তোমার Ledger-এর একটি Overview এখানে।
+          তোমার আজকের হিসাবের একটা সারসংক্ষেপ এখানে দেখতে পাবে।
         </p>
       </div>
 

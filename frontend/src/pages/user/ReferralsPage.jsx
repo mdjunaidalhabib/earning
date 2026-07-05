@@ -61,7 +61,7 @@ export default function ReferralsPage() {
           Referral
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          বন্ধুদের আমন্ত্রণ জানাও এবং যোগ দেওয়া প্রতিটি Referral-এর জন্য Bonus আয় করো।
+          বন্ধুদের আমন্ত্রণ জানাও, আর তারা যোগ দিলেই প্রতিবার বোনাস আয় করো।
         </p>
       </div>
 
@@ -79,7 +79,7 @@ export default function ReferralsPage() {
         <CardHeader>
           <CardTitle>Your Referral Link</CardTitle>
           <CardDescription>
-            এই Link শেয়ার করো — এর মাধ্যমে যে কেউ Sign Up করলে সে তোমার Referral হয়ে যাবে।
+            এই লিংকটা শেয়ার করো — কেউ এটা দিয়ে সাইন আপ করলেই সে তোমার রেফারেল হয়ে যাবে।
           </CardDescription>
         </CardHeader>
         <CardContent>
@@ -91,7 +91,7 @@ export default function ReferralsPage() {
             </Button>
           </div>
           <p className="mt-3 text-sm text-muted-foreground">
-            অথবা সরাসরি তোমার Code শেয়ার করো:{" "}
+            অথবা সরাসরি তোমার কোডটা শেয়ার করো:{" "}
             <span className="balance-figure text-foreground">{user?.referralCode}</span>
           </p>
         </CardContent>

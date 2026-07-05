@@ -14,7 +14,7 @@ export function PublicFooter() {
               <span className="font-display text-base font-semibold">EarnLedger</span>
             </div>
             <p className="mt-3 max-w-xs text-sm text-paper/60">
-              Task Complete করো, বন্ধুদের আমন্ত্রণ জানাও, আর প্রতিটি Taka-র হিসাব রাখো তোমার নিজের Ledger-এ।
+              কাজ শেষ করো, বন্ধুদের আমন্ত্রণ জানাও, আর নিজের হিসাবের খাতায় প্রতিটি টাকার হিসাব রাখো।
             </p>
           </div>
 

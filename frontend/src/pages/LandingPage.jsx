@@ -33,13 +33,12 @@ export default function LandingPage() {
         <div className="container relative z-10 flex flex-col items-center py-24 text-center sm:py-32">
           <span className="eyebrow mb-4 text-brass">Task-Based Earning Platform</span>
           <h1 className="font-display max-w-2xl text-4xl font-medium leading-tight sm:text-5xl">
-            অর্জিত প্রতিটি Taka,
+            তোমার আয় করা প্রতিটি টাকা,
             <br />
-            পাসবইয়ের মতো হিসাব রাখা হয়।
+            পাসবইয়ের মতোই হিসাব করে রাখা হয়।
           </h1>
           <p className="mt-5 max-w-lg text-paper/70">
-            Complete Simple Tasks, বন্ধুদের আমন্ত্রণ জানাও, এবং তোমার আয়ের প্রতিটি Entry একটি Transparent
-            Ledger-এ Track করো।
+            সহজ কাজ করো, বন্ধুদের আমন্ত্রণ জানাও, আর তোমার আয়ের প্রতিটি হিসাব রাখো একটি স্বচ্ছ লেজারে।
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <Button asChild variant="brass" size="lg">
@@ -57,10 +56,10 @@ export default function LandingPage() {
       <section className="container py-20">
         <div className="mx-auto max-w-xl text-center">
           <h2 className="font-display text-3xl font-semibold text-foreground">
-            আসল, Track করার মতো আয়ের জন্য তৈরি
+            সত্যিকারের আয়, যার হিসাব তুমি নিজেই রাখতে পারবে
           </h2>
           <p className="mt-3 text-muted-foreground">
-            কোনো ছলচাতুরি নেই — শুধু Task, Referral, আর বিশ্বাসযোগ্য একটি Ledger.
+            কোনো লুকোচুরি নেই — শুধু কাজ, রেফারেল, আর একটি বিশ্বাসযোগ্য হিসাবের খাতা।
           </p>
         </div>
 
@@ -85,7 +84,7 @@ export default function LandingPage() {
             আয় শুরু করতে প্রস্তুত?
           </h2>
           <p className="max-w-md text-paper/70">
-            তোমার Free Account তৈরি করো এবং মিনিটেই প্রথম Task Complete করো।
+            একদম ফ্রি অ্যাকাউন্ট খোলো, আর মিনিটের মধ্যেই শেষ করো তোমার প্রথম কাজ।
           </p>
           <Button asChild variant="brass" size="lg" className="mt-2">
             <Link to="/register">

@@ -38,8 +38,8 @@ export default function HowItWorksPage() {
           আয় শুরু করার চারটি সহজ ধাপ
         </h1>
         <p className="mt-3 text-muted-foreground">
-          EarnLedger সবকিছু Transparent রাখে — তুমি যে Task Complete করো তা থেকে শুরু করে তোমার Balance-এর
-          Taka পর্যন্ত।
+          EarnLedger-এ সবকিছুই স্বচ্ছ — তুমি যে কাজ শেষ করো তা থেকে শুরু করে তোমার ব্যালেন্সের প্রতিটি টাকা
+          পর্যন্ত।
         </p>
       </div>
 

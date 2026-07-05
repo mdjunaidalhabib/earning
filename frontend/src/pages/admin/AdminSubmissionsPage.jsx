@@ -84,7 +84,7 @@ export default function AdminSubmissionsPage() {
           Submission Review
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          Pending Task Submission গুলো Approve বা Reject করো। Approve করলে সাথে সাথেই Reward জমা হয়ে যায়।
+          জমা পড়া কাজগুলো অনুমোদন বা বাতিল করো। অনুমোদন করলে সাথে সাথেই পুরস্কারের টাকা যোগ হয়ে যাবে।
         </p>
       </div>
 
@@ -175,7 +175,7 @@ export default function AdminSubmissionsPage() {
           <DialogHeader>
             <DialogTitle>Reject Submission</DialogTitle>
             <DialogDescription>
-              একটি Reason উল্লেখ করো যাতে User বুঝতে পারে কেন এটি Reject হয়েছে।
+              একটা কারণ লেখো, যাতে ইউজার বুঝতে পারে কেন এটা বাতিল হলো।
             </DialogDescription>
           </DialogHeader>
           <div className="flex flex-col gap-1.5">

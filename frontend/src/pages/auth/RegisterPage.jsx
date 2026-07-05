@@ -108,7 +108,7 @@ export default function RegisterPage() {
               Create Your Account
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              মিনিটের মধ্যেই Task Complete করা ও আয় করা শুরু করো।
+              মিনিটের মধ্যেই কাজ শুরু করো, আয় করাও শুরু করো।
             </p>
           </div>
 

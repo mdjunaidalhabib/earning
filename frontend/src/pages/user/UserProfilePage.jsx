@@ -106,7 +106,7 @@ export default function UserProfilePage() {
           Profile Settings
         </h1>
         <p className="mt-1 text-sm text-muted-foreground">
-          তোমার Personal Information এবং Account Security পরিচালনা করো।
+          তোমার ব্যক্তিগত তথ্য আর অ্যাকাউন্টের নিরাপত্তা পরিচালনা করো এখান থেকে।
         </p>
       </div>
 

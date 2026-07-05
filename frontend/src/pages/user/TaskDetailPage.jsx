@@ -155,7 +155,7 @@ export default function TaskDetailPage() {
                   Submission Accepted
                 </p>
                 <p className="mt-1 text-sm text-muted-foreground">
-                  একজন Admin শীঘ্রই তোমার Submission Review করবেন।
+                  একজন অ্যাডমিন খুব শীঘ্রই তোমার জমা দেওয়া কাজটা যাচাই করবেন।
                 </p>
               </div>
               <Button asChild variant="brass" size="sm" className="mt-1">
@@ -164,7 +164,7 @@ export default function TaskDetailPage() {
             </div>
           ) : !isAvailable ? (
             <div className="rounded-lg bg-muted p-4 text-center text-sm text-muted-foreground">
-              তুমি ইতিমধ্যে এই Task সর্বোচ্চ সংখ্যকবার Complete করে ফেলেছো।
+              তুমি ইতিমধ্যে এই কাজটা যতবার করা যায় ততবারই করে ফেলেছো।
             </div>
           ) : (
             <form onSubmit={handleSubmit} className="flex flex-col gap-3">

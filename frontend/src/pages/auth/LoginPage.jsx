@@ -70,7 +70,7 @@ export default function LoginPage() {
               Welcome Back
             </h1>
             <p className="mt-2 text-sm text-muted-foreground">
-              তোমার Balance ও আজকের Earning Task দেখতে Log In করো।
+              তোমার ব্যালেন্স আর আজকের কাজগুলো দেখতে লগ ইন করো।
             </p>
           </div>
 
@@ -132,7 +132,7 @@ export default function LoginPage() {
           </form>
 
           <p className="mt-8 text-center text-sm text-muted-foreground">
-            Account নেই?{" "}
+            অ্যাকাউন্ট নেই?{" "}
             <Link to="/register" className="font-semibold text-primary hover:underline">
               Sign Up for Free
             </Link>
