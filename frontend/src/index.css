@@ -1,0 +1,145 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,400;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,500&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 42 33% 95%;
+    --foreground: 165 45% 11%;
+
+    --card: 42 40% 98%;
+    --card-foreground: 165 45% 11%;
+
+    --popover: 42 40% 98%;
+    --popover-foreground: 165 45% 11%;
+
+    --primary: 165 51% 11%;
+    --primary-foreground: 42 40% 96%;
+
+    --secondary: 40 45% 88%;
+    --secondary-foreground: 165 45% 15%;
+
+    --muted: 40 20% 90%;
+    --muted-foreground: 165 10% 38%;
+
+    --accent: 40 55% 55%;
+    --accent-foreground: 165 45% 11%;
+
+    --success: 133 26% 39%;
+    --success-foreground: 42 40% 96%;
+
+    --destructive: 3 45% 46%;
+    --destructive-foreground: 42 40% 96%;
+
+    --border: 40 25% 82%;
+    --input: 40 25% 82%;
+    --ring: 40 55% 55%;
+
+    --radius: 0.75rem;
+  }
+
+  .dark {
+    --background: 165 51% 8%;
+    --foreground: 42 40% 94%;
+
+    --card: 165 45% 11%;
+    --card-foreground: 42 40% 94%;
+
+    --popover: 165 45% 11%;
+    --popover-foreground: 42 40% 94%;
+
+    --primary: 40 55% 55%;
+    --primary-foreground: 165 51% 8%;
+
+    --secondary: 165 30% 16%;
+    --secondary-foreground: 42 40% 94%;
+
+    --muted: 165 25% 16%;
+    --muted-foreground: 42 15% 65%;
+
+    --accent: 40 55% 55%;
+    --accent-foreground: 165 51% 8%;
+
+    --success: 133 26% 45%;
+    --success-foreground: 165 51% 8%;
+
+    --destructive: 3 50% 52%;
+    --destructive-foreground: 42 40% 94%;
+
+    --border: 165 25% 20%;
+    --input: 165 25% 20%;
+    --ring: 40 55% 55%;
+  }
+
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-sans antialiased;
+    font-feature-settings: "cv11", "ss01";
+  }
+
+  ::selection {
+    @apply bg-brass/30 text-inherit;
+  }
+
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    @apply bg-transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply bg-brass/40 rounded-full;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    @apply bg-brass/60;
+  }
+
+  :focus-visible {
+    @apply outline-none ring-2 ring-brass ring-offset-2 ring-offset-background;
+  }
+}
+
+@layer components {
+  /* Signature "ledger stripe" divider — a dotted brass rule used to separate
+     balance entries, evoking a passbook line. Used across dashboards. */
+  .ledger-stripe {
+    background-image: repeating-linear-gradient(
+      to right,
+      hsl(var(--accent) / 0.5) 0,
+      hsl(var(--accent) / 0.5) 4px,
+      transparent 4px,
+      transparent 10px
+    );
+    height: 1px;
+    width: 100%;
+  }
+
+  .ledger-card {
+    @apply relative rounded-xl border border-border bg-card shadow-[0_1px_2px_rgba(11,43,38,0.04),0_8px_24px_-12px_rgba(11,43,38,0.15)];
+  }
+
+  .balance-figure {
+    @apply font-mono font-semibold tabular-nums tracking-tight;
+  }
+
+  .eyebrow {
+    @apply text-xs font-semibold uppercase tracking-[0.14em] text-muted-foreground;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

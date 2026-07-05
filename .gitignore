@@ -1,0 +1,32 @@
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Env files (never commit real secrets)
+.env
+.env.local
+.env.production
+*/.env
+*/.env.local
+*/.env.production
+
+# Build output
+dist/
+*/dist/
+build/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Editor
+.vscode/
+.idea/
+
+# Coverage
+coverage/
