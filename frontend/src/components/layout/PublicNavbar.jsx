@@ -43,9 +43,11 @@ export function PublicNavbar() {
 
         <div className="hidden items-center gap-3 md:flex">
           {isAuthenticated ? (
-            <Button asChild variant="brass">
-              <Link to={isAdmin ? "/admin" : "/dashboard"}>Go to Dashboard</Link>
-            </Button>
+            !isAdmin && (
+              <Button asChild variant="brass">
+                <Link to="/dashboard">Go to Dashboard</Link>
+              </Button>
+            )
           ) : (
             <>
               <Button asChild variant="ghost">
@@ -82,9 +84,11 @@ export function PublicNavbar() {
             ))}
             <div className="ledger-stripe" />
             {isAuthenticated ? (
-              <Button asChild variant="brass" onClick={() => setOpen(false)}>
-                <Link to={isAdmin ? "/admin" : "/dashboard"}>Go to Dashboard</Link>
-              </Button>
+              !isAdmin && (
+                <Button asChild variant="brass" onClick={() => setOpen(false)}>
+                  <Link to="/dashboard">Go to Dashboard</Link>
+                </Button>
+              )
             ) : (
               <>
                 <Button asChild variant="outline" onClick={() => setOpen(false)}>

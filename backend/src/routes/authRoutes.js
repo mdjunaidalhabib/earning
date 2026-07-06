@@ -22,12 +22,16 @@ const {
 
 const validate = require("../middleware/validateMiddleware");
 const { protect } = require("../middleware/authMiddleware");
+const { authLimiter } = require("../middleware/rateLimiters");
 
-router.post("/register", registerValidator, validate, register);
-router.post("/login", loginValidator, validate, login);
+// authLimiter only guards actual credential/abuse-prone endpoints.
+router.post("/register", authLimiter, registerValidator, validate, register);
+router.post("/login", authLimiter, loginValidator, validate, login);
+router.post("/forgot-password", authLimiter, forgotPasswordValidator, validate, forgotPassword);
+router.post("/reset-password/:token", authLimiter, resetPasswordValidator, validate, resetPassword);
+
+// Silent session checks — no rate limit, these fire on every app load.
 router.post("/refresh", refresh);
-router.post("/forgot-password", forgotPasswordValidator, validate, forgotPassword);
-router.post("/reset-password/:token", resetPasswordValidator, validate, resetPassword);
 router.post("/logout", protect, logout);
 router.get("/me", protect, getMe);
 router.patch(

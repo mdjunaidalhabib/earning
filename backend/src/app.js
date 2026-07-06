@@ -51,17 +51,6 @@ const globalLimiter = rateLimit({
 });
 app.use("/api", globalLimiter);
 
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000,
-  max: 20,
-  standardHeaders: true,
-  legacyHeaders: false,
-  message: {
-    success: false,
-    message: "Too many authentication attempts. Please try again later.",
-  },
-});
-
 // --- Health check ---
 app.get("/api/v1/health", (req, res) => {
   res.status(200).json({
@@ -73,8 +62,10 @@ app.get("/api/v1/health", (req, res) => {
 });
 
 // --- Route mounting ---
-// Auth routes get the stricter authLimiter applied at mount time.
-app.use("/api/v1/auth", authLimiter, require("./routes/authRoutes"));
+// authLimiter is applied selectively inside authRoutes.js (only to
+// login/register/forgot-password/reset-password), not to /refresh or /me,
+// so silent session checks on app load don't get rate-limited.
+app.use("/api/v1/auth", require("./routes/authRoutes"));
 app.use("/api/v1/users", require("./routes/userRoutes"));
 app.use("/api/v1/tasks", require("./routes/taskRoutes"));
 app.use("/api/v1/withdrawals", require("./routes/withdrawalRoutes"));
